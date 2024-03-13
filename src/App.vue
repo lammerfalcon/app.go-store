@@ -36,14 +36,31 @@ onMounted(fetchAndSetProducts)
 
 <template>
   <Confirm v-if="showConfirm === true" message="Hello?" @close="handleConfirmClose" />
-  <van-grid :border="false" :column-num="2">
-    <van-grid-item v-for="product in products" :key="product.id">
-      <div class="w-1/2">
+  <van-grid :border="false" :column-num="3">
+    <van-grid-item v-for="product in products.concat(products).concat(products).concat(products)" :key="product.id">
+      <div class="flex flex-col gap-2">
         <van-image
+          round
+          class="rounded-md"
+          height="10rem"
           position="center"
           fit="cover"
           :src="product.preview"
         />
+        <div v-if="!product?.count" class="self-center">
+          <van-button size="small" @click="product.count = 1">
+            ADD
+          </van-button>
+        </div>
+        <div v-else class="flex items-center justify-between">
+          <van-button size="small" @click="product.count -= 1">
+            -
+          </van-button>
+          {{ product.count }}
+          <van-button size="small" @click="product.count += 1">
+            +
+          </van-button>
+        </div>
       </div>
     </van-grid-item>
   </van-grid>

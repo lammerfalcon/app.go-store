@@ -1,28 +1,23 @@
 <script setup lang="ts">
 import { Confirm, MainButton } from 'vue-tg'
 import { onMounted, ref } from 'vue'
-import { useTodoApi } from '../services/todo/useTodoApi'
-import type { Product } from '@/types/Product'
+import type { ProductResponseEntities } from '@/types/Product'
+import { useProductsApi } from '@/services/products/useProductsApi'
 
+const { getProducts } = useProductsApi()
+
+const products = ref<ProductResponseEntities[]>([])
 const showConfirm = ref(false)
 
-const { getTodos } = useTodoApi()
-async function fetchTodos() {
-  const { entities, meta } = await getTodos()
-
-  return entities
-}
-
-const products = ref<Product[]>([])
 async function fetchAndSetProducts() {
   try {
-    products.value = await fetchTodos()
+    const { entities, meta } = await getProducts()
+    products.value = entities
   }
   catch (error) {
     console.error('Error fetching todos:', error)
   }
 }
-onMounted(fetchAndSetProducts)
 
 function handleConfirmClose(ok: boolean) {
   if (ok)
@@ -35,34 +30,47 @@ function handleConfirmClose(ok: boolean) {
 function handleMainButton() {
   console.log('main button clicked')
 }
+
+onMounted(fetchAndSetProducts)
 </script>
 
 <template>
   <Confirm v-if="showConfirm === true" message="Hello?" @close="handleConfirmClose" />
-  <div class="grid grid-cols-2 gap-4">
-    <div v-for="(product, index) in products" :key="index" class="card card-compact bg-base-100 shadow-xl">
-      <figure class="w-full">
-        <img :src="product.preview" alt="Shoes">
-      </figure>
-      <div class="card-body">
-        <h2 class="card-title">
-          {{ product.name }}
-        </h2>
-        <p />
-        <div class="card-actions justify-center items-center">
-          <button class="btn btn-primary">
-            +
-          </button>
-          <div class="text-2xl">
-            2
-          </div>
-          <button class="btn btn-primary">
-            -
-          </button>
-        </div>
+  <van-grid :border="false" :column-num="2">
+    <van-grid-item v-for="product in products" :key="product.id">
+      <div class="w-1/2">
+        <van-image
+          position="center"
+          fit="cover"
+          :src="product.preview"
+        />
       </div>
-    </div>
-  </div>
+    </van-grid-item>
+  </van-grid>
+  <!--  <div class="grid grid-cols-2 gap-4"> -->
+  <!--    <div v-for="(product, index) in products" :key="index" class="card card-compact bg-base-100 shadow-xl"> -->
+  <!--      <figure class="w-full"> -->
+  <!--        <img loading="lazy" :src="product.preview" alt="Shoes"> -->
+  <!--      </figure> -->
+  <!--      <div class="card-body"> -->
+  <!--        <h2 class="card-title"> -->
+  <!--          {{ product.name }} -->
+  <!--        </h2> -->
+  <!--        <p /> -->
+  <!--        <div class="card-actions justify-center items-center"> -->
+  <!--          <button class="btn btn-primary"> -->
+  <!--            + -->
+  <!--          </button> -->
+  <!--          <div class="text-2xl"> -->
+  <!--            2 -->
+  <!--          </div> -->
+  <!--          <button class="btn btn-primary"> -->
+  <!--            - -->
+  <!--          </button> -->
+  <!--        </div> -->
+  <!--      </div> -->
+  <!--    </div> -->
+  <!--  </div> -->
   <div class="pl-4 pr-4">
     <div class="h-screen flex justify-center items-center" @click="showConfirm = true">
       <button class="btn btn-outline btn-warning">

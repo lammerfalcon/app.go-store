@@ -1,25 +1,28 @@
 <script setup lang="ts">
-import { MainButton, BackButton, ClosingConfirmation, Confirm, ShareWidget } from 'vue-tg'
+import {ClosingConfirmation, Confirm, MainButton} from 'vue-tg'
 import {ref} from "vue";
 import {useTodoApi} from "../services/todo/useTodoApi";
+
 const showConfirm = ref(false)
+
 const {getTodos} = useTodoApi()
 const fetchTodos = async () => {
-  const data = await getTodos('2')
-  console.log(data)
+  const { entities, meta } = await getTodos()
+
+  return entities
 }
-fetchTodos()
-const url = import.meta.env
+const products = await fetchTodos()
+console.log(products)
+
 function handleConfirmClose(ok: boolean) {
   if (ok) console.log('confirmed')
   else console.log('cancelled')
   console.log(ok)
   showConfirm.value = false
-  // ...
 }
+
 function handleMainButton() {
   console.log('main button clicked')
-  // ...
 }
 </script>
 
@@ -35,18 +38,16 @@ function handleMainButton() {
       <div class="card-actions justify-center items-center">
         <button class="btn btn-primary">+</button>
         <div class="text-2xl">
-
         2
         </div>
         <button class="btn btn-primary">-</button>
       </div>
     </div>
   </div>
-{{url}}
   </div>
   <div class="pl-4 pr-4">
     <div @click="showConfirm = true" class="h-screen flex justify-center items-center">
-      omg
+      <button class="btn btn-outline btn-warning">omg</button>
     </div>
   </div>
 <!--  <BackButton @click="handleBackButton" />-->

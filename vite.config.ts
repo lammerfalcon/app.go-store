@@ -1,13 +1,12 @@
-import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite';
+import { URL, fileURLToPath } from 'node:url'
+import * as fs from 'node:fs'
+import { defineConfig } from 'vite'
 
 import vue from '@vitejs/plugin-vue'
 import VueDevTools from 'vite-plugin-vue-devtools'
-import * as fs from "fs";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
-
   return {
     plugins: [
       vue(),
@@ -15,7 +14,7 @@ export default defineConfig(() => {
     ],
     server: {
       port: 443,
-      host: "0.0.0.0",
+      host: '0.0.0.0',
       hmr: {
         host: 'tg-mini-app.local',
         port: 443,
@@ -27,8 +26,8 @@ export default defineConfig(() => {
     },
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
-      }
-    }
-  };
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
+  }
 })

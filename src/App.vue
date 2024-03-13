@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Confirm, MainButton } from 'vue-tg'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useTodoApi } from '../services/todo/useTodoApi'
+import type { Product } from '@/types/Product'
 
 const showConfirm = ref(false)
 
@@ -11,8 +12,17 @@ async function fetchTodos() {
 
   return entities
 }
-const products = fetchTodos()
-console.log(products)
+
+const products = ref<Product[]>([])
+async function fetchAndSetProducts() {
+  try {
+    products.value = await fetchTodos()
+  }
+  catch (error) {
+    console.error('Error fetching todos:', error)
+  }
+}
+onMounted(fetchAndSetProducts)
 
 function handleConfirmClose(ok: boolean) {
   if (ok)

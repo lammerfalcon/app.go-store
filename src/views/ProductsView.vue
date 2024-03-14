@@ -66,9 +66,9 @@ onMounted(async () => {
 
 <template>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3 gap-y-5">
-    <div v-for="product in products" :key="product.id" class="shadow-md rounded-xl">
+    <div v-for="product in products" :key="product.id" class="shadow-md dark:shadow-gray-900 rounded-xl">
       <div class="p-0 relative ">
-        <img class="object-cover rounded-xl aspect-[4/3] w-full" :src="product.preview" alt="">
+        <img class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="">
         <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
           к заказу — {{ product.basketCount }}
         </Badge>
@@ -80,7 +80,7 @@ onMounted(async () => {
         <div class="text-gray-400 leading-3 text-[12px]">
           Осталось: {{ product.count }}
         </div>
-        <div class="pt-2 flex-row flex justify-between">
+        <div class="mt-auto flex-row flex justify-between">
           <div class="text-xl">
             {{ product.price }}<span class="text-sm">₽</span>
           </div>

@@ -15,7 +15,7 @@ const showBackButton = computed(() => {
 </script>
 
 <template>
-  <div class="bg-background text-foreground p-4 max-w-[1280px] mx-auto">
+  <div class="p-4 max-w-[1280px] mx-auto">
     <BackButton v-if="showBackButton" @click="handleBackButton" />
     <RouterView />
   </div>

@@ -4,7 +4,7 @@ import { computed } from 'vue'
 import router from '@/router'
 
 function handleBackButton() {
-  router.go(-1)
+  router.push('/')
 }
 const showBackButton = computed(() => {
   return router.currentRoute.value.path !== '/'

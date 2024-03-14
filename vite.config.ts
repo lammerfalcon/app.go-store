@@ -10,6 +10,9 @@ import tailwind from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 // https://vitejs.dev/config/
 export default defineConfig(() => {
+  // eslint-disable-next-line node/prefer-global/process
+  const isProduction = process.env.NODE_ENV === 'production'
+
   return {
     css: {
       postcss: {
@@ -23,18 +26,20 @@ export default defineConfig(() => {
         resolvers: [VantResolver()],
       }),
     ],
-    server: {
-      port: 443,
-      host: '0.0.0.0',
-      hmr: {
-        host: 'tg-mini-app.local',
-        port: 443,
-      },
-      https: {
-        key: fs.readFileSync('./.cert/localhost-key.pem'),
-        cert: fs.readFileSync('./.cert/localhost.pem'),
-      },
-    },
+    server: isProduction
+      ? {}
+      : {
+          port: 443,
+          host: '0.0.0.0',
+          hmr: {
+            host: 'tg-mini-app.local',
+            port: 443,
+          },
+          https: {
+            key: fs.readFileSync('./.cert/localhost-key.pem'),
+            cert: fs.readFileSync('./.cert/localhost.pem'),
+          },
+        },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

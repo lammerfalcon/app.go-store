@@ -7,6 +7,14 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Badge: typeof import('./src/components/ui/badge/Badge.vue')['default']
+    Button: typeof import('./src/components/ui/button/Button.vue')['default']
+    Card: typeof import('./src/components/ui/card/Card.vue')['default']
+    CardContent: typeof import('./src/components/ui/card/CardContent.vue')['default']
+    CardDescription: typeof import('./src/components/ui/card/CardDescription.vue')['default']
+    CardFooter: typeof import('./src/components/ui/card/CardFooter.vue')['default']
+    CardHeader: typeof import('./src/components/ui/card/CardHeader.vue')['default']
+    CardTitle: typeof import('./src/components/ui/card/CardTitle.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -16,10 +24,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
-    VanActionBar: typeof import('vant/es')['ActionBar']
-    VanActionBarIcon: typeof import('vant/es')['ActionBarIcon']
     VanButton: typeof import('vant/es')['Button']
-    VanCard: typeof import('vant/es')['Card']
     VanGrid: typeof import('vant/es')['Grid']
     VanGridItem: typeof import('vant/es')['GridItem']
     VanImage: typeof import('vant/es')['Image']

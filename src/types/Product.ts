@@ -33,6 +33,9 @@ export interface ProductResponseEntities {
   price: number
   media: ProductResponseEntitiesMedia[]
   preview: string
+  count: number | null
+  basketCount: number | null
+  isAnimatingProcess: boolean
 }
 export interface ProductResponseMetaLinks {
   url?: any
@@ -49,4 +52,12 @@ export interface ProductResponseMeta {
   prev_page_url?: any
   next_page_url: string
   links: ProductResponseMetaLinks[]
+}
+
+export interface BasketProduct {
+  product_id: number
+  count: number
+}
+export interface Basket {
+  basket: BasketProduct[]
 }

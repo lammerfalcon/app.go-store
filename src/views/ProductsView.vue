@@ -94,16 +94,18 @@ onMounted(async () => {
               size="sm"
               @click="changeCount(product, 'dec')"
             >
-              —
+              –
             </Button>
-            <Button size="sm" :disabled="!product.count" @click="changeCount(product, 'inc')">
+            <Button
+              size="sm" :disabled="!product.count" @click="changeCount(product, 'inc')"
+            >
               +
             </Button>
           </div>
         </div>
       </div>
     </div>
-    <MainButton v-if="basket.length" text="Перейти к оплате" @click="handleCreateOrder" />
+    <MainButton v-if="basket.length" color="#e19746" text="Перейти к оплате" @click="handleCreateOrder" />
   </div>
 </template>
 

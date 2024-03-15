@@ -87,12 +87,12 @@ module.exports = {
 
         'scaleUp': {
           '0%': { transform: 'scale(1)' },
-          '50%': { transform: 'scale(1.25)' },
+          '50%': { transform: 'scale(1.15)' },
           '100%': { transform: 'scale(1)' },
         },
       },
       animation: {
-        'scaleUp': 'scaleUp 0.29s ease-in-out',
+        'scaleUp': 'scaleUp 0.15s ease-in-out',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'collapsible-down': 'collapsible-down 0.2s ease-in-out',

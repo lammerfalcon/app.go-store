@@ -26,6 +26,9 @@ async function fetchAndSetProducts() {
 function changeCount(product: ProductResponseEntities, direction: 'inc' | 'dec') {
   product.isAnimatingProcess = true
 
+  if (product.animationTimeoutId)
+    clearTimeout(product.animationTimeoutId)
+
   product.basketCount = product.basketCount ?? 0
   product.count = product.count ?? 0
 
@@ -41,7 +44,11 @@ function changeCount(product: ProductResponseEntities, direction: 'inc' | 'dec')
     product.count += 1
   }
 
-  setTimeout(() => product.isAnimatingProcess = false, 300)
+  product.animationTimeoutId = setTimeout(() => {
+    product.isAnimatingProcess = false
+    // Ensure to clear the timeout ID once the animation is no longer in process
+    product.animationTimeoutId = null
+  }, 150)
 }
 
 async function handleCreateOrder() {
@@ -66,21 +73,21 @@ onMounted(async () => {
 
 <template>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3 gap-y-5">
-    <div v-for="product in products" :key="product.id" class="shadow-md dark:shadow-gray-900 rounded-xl">
+    <div v-for="product in products" :key="product.id" class="shadow-md dark:shadow-gray-900 rounded-xl flex flex-col">
       <div class="p-0 relative ">
         <img class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="">
         <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
           к заказу — {{ product.basketCount }}
         </Badge>
       </div>
-      <div class="p-2">
-        <div class="text-gray-600 mt-1 leading-[14px] text-[14px]">
+      <div class="p-2 flex-1 flex flex-col">
+        <span class="text-gray-600 leading-[14px] text-[14px] pb-2  ">
           {{ product.name }}
-        </div>
-        <div class="text-gray-400 leading-3 text-[12px]">
+        </span>
+        <span class="text-gray-400 leading-3 mt-auto text-[12px]">
           Осталось: {{ product.count }}
-        </div>
-        <div class="mt-auto flex-row flex justify-between">
+        </span>
+        <div class=" flex-row flex items-center justify-between">
           <div class="text-xl">
             {{ product.price }}<span class="text-sm">₽</span>
           </div>

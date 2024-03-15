@@ -73,21 +73,21 @@ onMounted(async () => {
 
 <template>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3 gap-y-5">
-    <div v-for="product in products" :key="product.id" class="shadow-md dark:shadow-gray-900 rounded-xl flex flex-col">
+    <div v-for="product in products" :key="product.id" class="shadow-md rounded-xl flex flex-col">
       <div class="p-0 relative ">
         <img class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="">
         <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
           к заказу — {{ product.basketCount }}
         </Badge>
       </div>
-      <div class="p-2 flex-1 flex flex-col">
-        <span class="text-gray-600 leading-[14px] text-[14px] pb-2  ">
+      <div class="p-2 flex-1 flex  gap-2 flex-col">
+        <span class="leading-[14px] text-[14px]  ">
           {{ product.name }}
         </span>
-        <span class="text-gray-400 leading-3 mt-auto text-[12px]">
+        <span class="text-muted-foreground leading-3 text-[12px]">
           Осталось: {{ product.count }}
         </span>
-        <div class=" flex-row flex items-center justify-between">
+        <div class="mt-auto flex-row flex items-center justify-between">
           <div class="text-xl">
             {{ product.price }}<span class="text-sm">₽</span>
           </div>

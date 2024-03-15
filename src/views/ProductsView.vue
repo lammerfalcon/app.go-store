@@ -112,6 +112,9 @@ onMounted(async () => {
         </div>
       </div>
     </div>
+    <!--    <button v-if="basket.length" color="#e19746" text="Перейти к оплате" @click="handleCreateOrder"> -->
+    <!--      go -->
+    <!--    </button> -->
     <MainButton v-if="basket.length" color="#e19746" text="Перейти к оплате" @click="handleCreateOrder" />
   </div>
 </template>

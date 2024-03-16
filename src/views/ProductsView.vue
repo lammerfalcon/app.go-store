@@ -48,7 +48,6 @@ function changeCount(product: ProductResponseEntities, direction: 'inc' | 'dec')
 }
 
 onMounted(async () => {
-  window.Telegram.WebApp.close()
   if (products.value.length)
     return
   await fetchAndSetProducts()

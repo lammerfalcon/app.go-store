@@ -8,6 +8,8 @@ import router from '@/router'
 const productsStore = useProductsStore()
 const { basket, totalPrice } = storeToRefs(productsStore)
 onMounted(async () => {
+  window.Telegram.WebApp.close()
+
   if (!basket.value.length)
     await router.push({ name: 'products' })
 })

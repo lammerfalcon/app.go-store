@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BackButton, MainButton, useWebApp } from 'vue-tg'
+import { BackButton, MainButton, useWebApp, useWebAppPopup } from 'vue-tg'
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import router from '@/router'
@@ -8,6 +8,7 @@ import { useProductsApi } from '@/services/products/useProductsApi'
 import { useOrdersApi } from '@/services/orders/useOrdersApi'
 
 const { initData, initDataUnsafe } = useWebApp()
+const { showConfirm, showPopup } = useWebAppPopup()
 console.log(initData)
 console.log(initDataUnsafe)
 function handleBackButton() {
@@ -35,8 +36,13 @@ async function handleCreateOrder() {
   }
   else {
     try {
-      await createOrder(basket.value)
-      await fetchAndSetProducts()
+      showConfirm('Вы перевели деньги на карту?', async (ok) => {
+        if (ok) {
+          await createOrder(basket.value)
+          await fetchAndSetProducts()
+          useWebApp().close()
+        }
+      })
     }
     catch (error) {
       console.error('Error creating order:', error)

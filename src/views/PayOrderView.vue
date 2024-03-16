@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { onMounted } from 'vue'
 import { useProductsStore } from '@/stores/products'
 import BankCard from '@/components/Order/BankCard.vue'
+import router from '@/router'
 
 const productsStore = useProductsStore()
 const { basket, totalPrice } = storeToRefs(productsStore)
+onMounted(async () => {
+  if (!basket.value.length)
+    await router.push({ name: 'products' })
+})
 </script>
 
 <template>

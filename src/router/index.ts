@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import ProductsView from '@/views/ProductsView.vue'
+import PayOrderView from '@/views/PayOrderView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,14 +8,14 @@ const router = createRouter({
     {
       path: '/',
       name: 'products',
-      component: () => import('../views/ProductsView.vue'),
+      component: ProductsView,
       meta: { transition: 'slide-right' },
 
     },
     {
       path: '/payment',
       name: 'payment',
-      component: () => import('../views/PayOrderView.vue'),
+      component: PayOrderView,
       meta: { transition: 'slide-left' },
 
     },

@@ -46,7 +46,7 @@ async function handleCreateOrder() {
 
           await createOrder(payload)
           await fetchAndSetProducts()
-          return useWebApp().close()
+          window.Telegram.WebApp.close()
         }
         catch (error) {
           console.error('Error creating order:', error)

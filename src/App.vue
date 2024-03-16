@@ -53,7 +53,7 @@ async function handleCreateOrder() {
     <!--      </span> -->
     <!--    </Button> -->
     <router-view v-slot="{ Component, route }">
-      <transition :name="route.meta.transition || 'fade'">
+      <transition mode="out-in" :name="route.meta.transition || 'fade'">
         <component :is="Component" />
       </transition>
     </router-view>
@@ -68,22 +68,22 @@ async function handleCreateOrder() {
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all 0.25s ease-out;
+  transition: all 0.3s;
 }
 .slide-left-enter-from {
   opacity: 0;
-  transform: translate(0, 120px);
+  transform: translate(0, 220px);
 }
 .slide-left-leave-to {
   opacity: 0;
-  transform: translate(0, -120px);
+  transform: translate(0, -220px);
 }
 .slide-right-enter-from {
   opacity: 0;
-  transform: translate(0, -120px);
+  transform: translate(0, -220px);
 }
 .slide-right-leave-to {
   opacity: 0;
-  transform: translate(0, 120px);
+  transform: translate(0, 220px);
 }
 </style>

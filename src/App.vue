@@ -7,10 +7,8 @@ import { useProductsStore } from '@/stores/products'
 import { useProductsApi } from '@/services/products/useProductsApi'
 import { useOrdersApi } from '@/services/orders/useOrdersApi'
 
-const { initData, initDataUnsafe } = useWebApp()
+const { initDataUnsafe } = useWebApp()
 const { showConfirm, showPopup } = useWebAppPopup()
-console.log(initData)
-console.log(initDataUnsafe)
 function handleBackButton() {
   router.push('/')
 }
@@ -20,7 +18,7 @@ const showBackButton = computed(() => {
 const productsStore = useProductsStore()
 const { getProducts } = useProductsApi()
 const { createOrder } = useOrdersApi()
-const { products, basket, totalPrice } = storeToRefs(productsStore)
+const { products, basket } = storeToRefs(productsStore)
 async function fetchAndSetProducts() {
   try {
     const { entities } = await getProducts()
@@ -35,30 +33,32 @@ async function handleCreateOrder() {
     await router.push({ name: 'payment' })
   }
   else {
-    try {
-      showConfirm('Вы подтверждаете перевод?', async (ok) => {
-        if (ok) {
+    showConfirm('Вы подтверждаете перевод?', async (ok) => {
+      if (ok) {
+        try {
           const payload = {
             order: {
               products: basket.value,
             },
             user: initDataUnsafe.user,
           }
+
           await createOrder(payload)
           await fetchAndSetProducts()
           useWebApp().close()
         }
-      })
-    }
-    catch (error) {
-      console.error('Error creating order:', error)
-    }
+        catch (error) {
+          console.error('Error creating order:', error)
+          return showPopup({ message: 'У нас что-то поломалось, стараемся починить как можно скорее!' })
+        }
+      }
+    })
   }
 }
 const mainButtonText = computed(() => {
   let text = null
   if (basket.value.length && router.currentRoute.value.path !== '/')
-    text = `Всего к оплате: ${totalPrice.value} ₽`
+    text = 'Подтвердить перевод'
   else if (basket.value.length && router.currentRoute.value.path === '/')
     text = 'Перейти к оплате'
   return text
@@ -89,7 +89,7 @@ const mainButtonText = computed(() => {
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all 0.5s ease-out;
+  transition: all 0.4s ease-out;
 }
 .slide-left-enter-from {
   opacity: 0;

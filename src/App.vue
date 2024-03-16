@@ -34,6 +34,8 @@ async function handleCreateOrder() {
     await router.push({ name: 'payment' })
   }
   else {
+    window.Telegram.WebApp.close()
+
     // showConfirm('Вы подтверждаете перевод?', async (ok) => {
     //   if (ok) {
     try {
@@ -46,7 +48,6 @@ async function handleCreateOrder() {
 
       await createOrder(payload)
       await fetchAndSetProducts()
-      window.Telegram.WebApp.close()
     }
     catch (error) {
       console.error('Error creating order:', error)

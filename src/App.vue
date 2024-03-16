@@ -34,25 +34,25 @@ async function handleCreateOrder() {
     await router.push({ name: 'payment' })
   }
   else {
-    // showConfirm('Вы подтверждаете перевод?', async (ok) => {
-    //   if (ok) {
-    try {
-      const payload = {
-        order: {
-          products: basket.value,
-        },
-        user: initDataUnsafe.user,
-      }
+    showConfirm('Вы подтверждаете перевод?', async (ok) => {
+      if (ok) {
+        try {
+          const payload = {
+            order: {
+              products: basket.value,
+            },
+            user: initDataUnsafe.user,
+          }
 
-      await createOrder(payload)
-      window.Telegram.WebApp.close()
-    }
-    catch (error) {
-      console.error('Error creating order:', error)
-      return showPopup({ message: 'У нас что-то поломалось, стараемся починить как можно скорее!' })
-    }
-    //   }
-    // })
+          await createOrder(payload)
+          window.Telegram.WebApp.close()
+        }
+        catch (error) {
+          console.error('Error creating order:', error)
+          return showPopup({ message: 'У нас что-то поломалось, стараемся починить как можно скорее!' })
+        }
+      }
+    })
   }
 }
 const { deviceType } = useDeviceDetect()

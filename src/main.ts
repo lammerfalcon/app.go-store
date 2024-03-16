@@ -8,7 +8,6 @@ import VueTelegram from 'vue-tg'
 import App from './App.vue'
 import router from './router'
 import '@erfanmola/televue/style.css'
-import './index.css'
 
 const app = createApp(App)
 const pinia = createPinia()

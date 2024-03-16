@@ -6,6 +6,7 @@ import router from '@/router'
 import { useProductsStore } from '@/stores/products'
 import { useProductsApi } from '@/services/products/useProductsApi'
 import { useOrdersApi } from '@/services/orders/useOrdersApi'
+import { useDeviceDetect } from '@/composables/useDeviceDetect'
 
 const { initDataUnsafe } = useWebApp()
 const { showConfirm, showPopup } = useWebAppPopup()
@@ -55,6 +56,7 @@ async function handleCreateOrder() {
     })
   }
 }
+const { deviceType } = useDeviceDetect()
 const mainButtonText = computed(() => {
   let text = null
   if (basket.value.length && router.currentRoute.value.path !== '/')
@@ -67,7 +69,12 @@ const mainButtonText = computed(() => {
 
 <template>
   <div class="p-4 max-w-[1280px] mx-auto">
-    <BackButton v-if="showBackButton" @click="handleBackButton" />
+    <!-- Добавляйте больше условий для других типов устройств -->
+    <Button v-if="showBackButton && deviceType === 'Android'" class="mb-4" size="sm" @click="handleBackButton">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="m5.83 9l5.58-5.58L10 2l-8 8l8 8l1.41-1.41L5.83 11H18V9z" /></svg>
+    </Button>
+
+    <BackButton v-if="showBackButton && deviceType !== 'Android'" @click="handleBackButton" />
     <!--    TODO: persisted state with basket clear -->
     <!--    <Button class="fixed top-5 left-5 z-50 bg-primary/80"> -->
     <!--      <span class="opacity-100"> -->

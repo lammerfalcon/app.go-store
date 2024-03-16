@@ -7,11 +7,15 @@ const router = createRouter({
       path: '/',
       name: 'products',
       component: () => import('../views/ProductsView.vue'),
+      meta: { transition: 'slide-right' },
+
     },
     {
       path: '/payment',
       name: 'payment',
       component: () => import('../views/PayOrderView.vue'),
+      meta: { transition: 'slide-left' },
+
     },
   ],
 })

@@ -25,3 +25,4 @@ export const useProductsStore = defineStore('products', () => {
   })
   return { products, basket, totalPrice }
 })
+// TODO: add persist if needed

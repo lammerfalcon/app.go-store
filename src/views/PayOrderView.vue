@@ -3,13 +3,42 @@ import { storeToRefs } from 'pinia'
 import { MainButton } from 'vue-tg'
 import { useProductsStore } from '@/stores/products'
 import BankCard from '@/components/Order/BankCard.vue'
+import router from '@/router'
+import { useProductsApi } from '@/services/products/useProductsApi'
+import { useOrdersApi } from '@/services/orders/useOrdersApi'
 
 const productsStore = useProductsStore()
-const { basket, totalPrice } = storeToRefs(productsStore)
+const { getProducts } = useProductsApi()
+const { createOrder } = useOrdersApi()
+const { products, basket, totalPrice } = storeToRefs(productsStore)
+async function fetchAndSetProducts() {
+  try {
+    const { entities } = await getProducts()
+    products.value = entities
+  }
+  catch (error) {
+    console.error('Error fetching todos:', error)
+  }
+}
+async function handleCreateOrder() {
+  if (!basket.value.length)
+    return
+  try {
+    await createOrder(basket.value)
+    await fetchAndSetProducts()
+    await router.push({ name: 'payment' })
+  }
+  catch (error) {
+    console.error('Error creating order:', error)
+  }
+}
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col gap-6">
+  <div class="min-h-screen max-w-[380px] mx-auto flex flex-col gap-6">
+    <!--    <div @click="router.back()"> -->
+    <!--      назад -->
+    <!--    </div> -->
     <BankCard />
     <section class="p-4 bg-secondary rounded-xl">
       <h3 class="text-xl">
@@ -25,21 +54,23 @@ const { basket, totalPrice } = storeToRefs(productsStore)
       </ul>
     </section>
     <section class="p-4 bg-secondary rounded-xl">
-      <h3 class="text-lg">
+      <h3 class="text-xl font-extralight mb-1">
         Ваш заказ:
       </h3>
       <div v-for="item in basket" :key="item.product_id">
         <div class="grid grid-cols-5">
-          <div class="col-span-3">
+          <div class="col-span-3 font-semibold">
             {{ item.name }}
           </div>
-          <div>x{{ item.count }}</div>
+          <div class="self-end">
+            x{{ item.count }}
+          </div>
           <div class="self-end">
             {{ item.price * item.count }}₽
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-5 mt-2">
+      <div class="border-t border-secondary-foreground grid grid-cols-5 mt-2">
         <div />
         <div />
         <div />
@@ -47,18 +78,10 @@ const { basket, totalPrice } = storeToRefs(productsStore)
         <div>{{ totalPrice }}₽</div>
       </div>
     </section>
+    <MainButton v-if="basket.length" :text="`Всего к оплате: ${totalPrice.toString()} ₽`" @click="handleCreateOrder" />
   </div>
-  <MainButton v-if="basket.length" :text="`Всего к оплате: ${totalPrice.toString()} ₽`" @click="handleCreateOrder" />
 </template>
 
 <style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
 
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
 </style>

@@ -72,53 +72,57 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 gap-y-5">
-    <div v-for="product in products" :key="product.id" class="shadow-md rounded-xl flex flex-col">
-      <div class="p-0 relative ">
-        <img class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="">
-        <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
-          к заказу — {{ product.basketCount }}
-        </Badge>
-      </div>
-      <div class="p-2 flex-1 flex  gap-2 flex-col">
-        <span class="leading-[14px] text-[14px]  ">
-          {{ product.name }}
-        </span>
-        <span class="text-muted-foreground leading-3 text-[12px]">
-          Осталось: {{ product.count }}
-        </span>
-        <div class="mt-auto flex-row flex items-center justify-between">
-          <div class="text-xl">
-            {{ product.price }}<span class="text-sm">₽</span>
-          </div>
-          <div v-if="!product.basketCount">
-            <Button size="sm" @click="changeCount(product, 'inc')">
-              Добавить
-            </Button>
-          </div>
-          <div v-else class="flex flex-row gap-2 items-center">
-            <Button
-              size="sm"
-              @click="changeCount(product, 'dec')"
-            >
-              –
-            </Button>
-            <Button
-              size="sm" :disabled="!product.count" @click="changeCount(product, 'inc')"
-            >
-              +
-            </Button>
+  <div>
+    <!--    <div @click="handleCreateOrder"> -->
+    <!--      вперед -->
+    <!--    </div> -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 gap-y-5">
+      <div v-for="product in products" :key="product.id" class="shadow-md rounded-xl flex flex-col">
+        <div class="p-0 relative ">
+          <img class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="">
+          <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
+            к заказу — {{ product.basketCount }}
+          </Badge>
+        </div>
+        <div class="p-2 flex-1 flex  gap-2 flex-col">
+          <span class="leading-[14px] text-[14px]  ">
+            {{ product.name }}
+          </span>
+          <span class="text-muted-foreground leading-3 text-[12px]">
+            Осталось: {{ product.count }}
+          </span>
+          <div class="mt-auto flex-row flex items-center justify-between">
+            <div class="text-xl">
+              {{ product.price }}<span class="text-sm">₽</span>
+            </div>
+            <div v-if="!product.basketCount">
+              <Button size="sm" @click="changeCount(product, 'inc')">
+                Добавить
+              </Button>
+            </div>
+            <div v-else class="flex flex-row gap-2 items-center">
+              <Button
+                size="sm"
+                @click="changeCount(product, 'dec')"
+              >
+                –
+              </Button>
+              <Button
+                size="sm" :disabled="!product.count" @click="changeCount(product, 'inc')"
+              >
+                +
+              </Button>
+            </div>
           </div>
         </div>
       </div>
+      <!--    <button v-if="basket.length" color="#e19746" text="Перейти к оплате" @click="handleCreateOrder"> -->
+      <!--      go -->
+      <!--    </button> -->
+      <MainButton v-if="basket.length" color="#e19746" text="Перейти к оплате" @click="handleCreateOrder" />
     </div>
-    <!--    <button v-if="basket.length" color="#e19746" text="Перейти к оплате" @click="handleCreateOrder"> -->
-    <!--      go -->
-    <!--    </button> -->
-    <MainButton v-if="basket.length" color="#e19746" text="Перейти к оплате" @click="handleCreateOrder" />
   </div>
 </template>
 
 <style scoped>
-
 </style>

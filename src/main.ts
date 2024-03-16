@@ -2,20 +2,21 @@ import './assets/index.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import VueTelegram from 'vue-tg'
 import App from './App.vue'
 import router from './router'
 import '@erfanmola/televue/style.css'
 import './index.css'
-import { Locale } from 'vant'
-import ruRU from 'vant/es/locale/lang/ru-RU'
 
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
+pinia.use(piniaPluginPersistedstate)
+
+app.use(pinia)
 app.use(router)
 app.use(VueTelegram)
-Locale.use('ru-RU', ruRU)
 
 app.mount('#app')

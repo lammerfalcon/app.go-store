@@ -17,10 +17,42 @@ const showBackButton = computed(() => {
 <template>
   <div class="p-4 max-w-[1280px] mx-auto">
     <BackButton v-if="showBackButton" @click="handleBackButton" />
-    <RouterView />
+    <!--    TODO: persisted state with basket clear -->
+    <!--    <Button class="fixed top-5 left-5 z-50 bg-primary/80"> -->
+    <!--      <span class="opacity-100"> -->
+    <!--        Очистить корзину -->
+    <!--      </span> -->
+    <!--    </Button> -->
+    <router-view v-slot="{ Component, route }">
+      <transition :name="route.meta.transition || 'fade'">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
   <!--  <Confirm v-if="showConfirm === true" message="Hello?" @close="handleConfirmClose" /> -->
 </template>
 
 <style scoped>
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: all 0.25s ease-out;
+}
+.slide-left-enter-from {
+  opacity: 0;
+  transform: translate(0, 120px);
+}
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translate(0, -120px);
+}
+.slide-right-enter-from {
+  opacity: 0;
+  transform: translate(0, -120px);
+}
+.slide-right-leave-to {
+  opacity: 0;
+  transform: translate(0, 120px);
+}
 </style>

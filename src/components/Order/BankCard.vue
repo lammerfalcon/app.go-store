@@ -61,28 +61,28 @@ const { copy, copied, isSupported } = useClipboard({ cardNumber })
         Сбер
       </div>
     </div>
-    <div
+    <button
       class="text-secondary flex flex-row justify-between items-center cursor-pointer active:bg-emerald-800/60 p-1 ring-1 active:ring-emerald-600 ring-emerald-700 rounded-md"
       @click="copy(cardNumber)"
     >
-      <div v-if="!copied">
-        <h4 class="transition-all ease-in-out duration-200 uppercase tracking-wider font-semibold text-sm">
+      <span v-if="!copied" class="block">
+        <span class="block uppercase tracking-wider text-start font-semibold text-sm">
           Номер карты
-        </h4>
-        <h1 class=" text-xl">
+        </span>
+        <span class="block text-start text-xl">
           {{ cardNumber }}
-        </h1>
-      </div>
-      <div v-if="copied">
-        <h4 class="transition-all ease-in-out duration-200 uppercase tracking-wider font-semibold text-sm" />
-        <h1 class=" text-xl">
+        </span>
+      </span>
+      <span v-if="copied" class="block">
+        <span class="tuppercase tracking-wider font-semibold text-sm" />
+        <span class=" text-xl">
           Скопировали 🎉
-        </h1>
-      </div>
+        </span>
+      </span>
       <div class="py-2">
         <CopyIcon width="2rem" height="2rem" />
       </div>
-    </div>
+    </button>
     <div
       class="text-secondary flex flex-col self-end"
     >

@@ -83,22 +83,23 @@ const mainButtonText = computed(() => {
     <!--        Очистить корзину -->
     <!--      </span> -->
     <!--    </Button> -->
-    <router-view v-slot="{ Component, route }">
-      <transition mode="out-in" :name="route.meta.transition || 'fade'">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+    <router-view />
+    <!--    <router-view v-slot="{ Component, route }"> -->
+    <!--      <transition mode="out-in" :name="route.meta.transition || 'fade'"> -->
+    <!--        <component :is="Component" /> -->
+    <!--      </transition> -->
+    <!--    </router-view> -->
     <MainButton v-if="basket.length" color="#e19746" :text="mainButtonText" @click="handleCreateOrder" />
   </div>
   <!--  <Confirm v-if="showConfirm === true" message="Hello?" @close="handleConfirmClose" /> -->
 </template>
 
 <style scoped>
-.slide-left-enter-active,
+/*.slide-left-enter-active,
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all 0.4s ease-out;
+  transition: all 0.6s ease-out;
 }
 .slide-left-enter-from {
   opacity: 0;
@@ -115,5 +116,5 @@ const mainButtonText = computed(() => {
 .slide-right-leave-to {
   opacity: 0;
   transform: translate(0, 370px);
-}
+}*/
 </style>

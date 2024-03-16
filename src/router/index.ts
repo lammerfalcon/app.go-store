@@ -21,7 +21,7 @@ const router = createRouter({
     },
   ],
   scrollBehavior() {
-    return { top: 0, behavior: 'smooth' }
+    return { top: 0 }
   },
 })
 

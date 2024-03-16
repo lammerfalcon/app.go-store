@@ -56,16 +56,17 @@ onMounted(async () => {
 
 <template>
   <div>
+    <div class="fixed top-0" />
     <!--    <div @click="handleCreateOrder"> -->
     <!--      вперед -->
     <!--    </div> -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 gap-y-5">
       <div class="col-span-2 rounded-xl text-secondary shadow-md bg-primary/80 p-4 text-lg  font-extralight tracking-wide">
-        Домашний ремесленный хлеб своими руками и от всего сердца 💛💛💛
+        Домашний ремесленный хлеб своими руками и&nbsp;от&nbsp;всего сердца 💛
       </div>
       <div v-for="product in products" :key="product.id" class="shadow-md rounded-xl flex flex-col">
         <div class="p-0 relative ">
-          <img class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="">
+          <img loading="lazy" class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="">
           <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
             к заказу — {{ product.basketCount }}
           </Badge>

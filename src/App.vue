@@ -9,6 +9,7 @@ import { useProductsApi } from '@/services/products/useProductsApi'
 import { useOrdersApi } from '@/services/orders/useOrdersApi'
 
 const mode = useColorMode()
+console.log(window.Telegram.WebApp)
 
 function handleBackButton() {
   router.push('/')

@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { MainButton } from 'vue-tg'
 import { storeToRefs } from 'pinia'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import type { ProductResponseEntities } from '@/types/Product'
 import { useProductsApi } from '@/services/products/useProductsApi'
-import { useOrdersApi } from '@/services/orders/useOrdersApi'
-import router from '@/router'
 import { useProductsStore } from '@/stores/products'
 
 const { getProducts } = useProductsApi()
-const { createOrder } = useOrdersApi()
 const productsStore = useProductsStore()
-const { products, basket, totalPrice } = storeToRefs(productsStore)
+const { products } = storeToRefs(productsStore)
 async function fetchAndSetProducts() {
   try {
     const { entities } = await getProducts()
@@ -49,19 +45,6 @@ function changeCount(product: ProductResponseEntities, direction: 'inc' | 'dec')
     // Ensure to clear the timeout ID once the animation is no longer in process
     product.animationTimeoutId = null
   }, 150)
-}
-
-async function handleCreateOrder() {
-  if (!basket.value.length)
-    return
-  try {
-    // await createOrder(basket.value)
-    // await fetchAndSetProducts()
-    await router.push({ name: 'payment' })
-  }
-  catch (error) {
-    console.error('Error creating order:', error)
-  }
 }
 
 onMounted(async () => {
@@ -119,7 +102,6 @@ onMounted(async () => {
       <!--    <button v-if="basket.length" color="#e19746" text="Перейти к оплате" @click="handleCreateOrder"> -->
       <!--      go -->
       <!--    </button> -->
-      <MainButton v-if="basket.length" color="#e19746" text="Перейти к оплате" @click="handleCreateOrder" />
     </div>
   </div>
 </template>

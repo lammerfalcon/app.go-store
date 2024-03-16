@@ -1,37 +1,10 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { MainButton } from 'vue-tg'
 import { useProductsStore } from '@/stores/products'
 import BankCard from '@/components/Order/BankCard.vue'
-import router from '@/router'
-import { useProductsApi } from '@/services/products/useProductsApi'
-import { useOrdersApi } from '@/services/orders/useOrdersApi'
 
 const productsStore = useProductsStore()
-const { getProducts } = useProductsApi()
-const { createOrder } = useOrdersApi()
-const { products, basket, totalPrice } = storeToRefs(productsStore)
-async function fetchAndSetProducts() {
-  try {
-    const { entities } = await getProducts()
-    products.value = entities
-  }
-  catch (error) {
-    console.error('Error fetching todos:', error)
-  }
-}
-async function handleCreateOrder() {
-  if (!basket.value.length)
-    return
-  try {
-    await createOrder(basket.value)
-    await fetchAndSetProducts()
-    await router.push({ name: 'payment' })
-  }
-  catch (error) {
-    console.error('Error creating order:', error)
-  }
-}
+const { basket, totalPrice } = storeToRefs(productsStore)
 </script>
 
 <template>
@@ -78,7 +51,6 @@ async function handleCreateOrder() {
         <div>{{ totalPrice }}₽</div>
       </div>
     </section>
-    <MainButton v-if="basket.length" :text="`Всего к оплате: ${totalPrice.toString()} ₽`" @click="handleCreateOrder" />
   </div>
 </template>
 

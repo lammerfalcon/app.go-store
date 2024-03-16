@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { BackButton } from 'vue-tg'
+import { BackButton, MainButton } from 'vue-tg'
 import { computed } from 'vue'
 import { useColorMode } from '@vueuse/core'
+import { storeToRefs } from 'pinia'
 import router from '@/router'
+import { useProductsStore } from '@/stores/products'
+import { useProductsApi } from '@/services/products/useProductsApi'
+import { useOrdersApi } from '@/services/orders/useOrdersApi'
 
 const mode = useColorMode()
 
@@ -12,6 +16,31 @@ function handleBackButton() {
 const showBackButton = computed(() => {
   return router.currentRoute.value.path !== '/'
 })
+const productsStore = useProductsStore()
+const { getProducts } = useProductsApi()
+const { createOrder } = useOrdersApi()
+const { products, basket, totalPrice } = storeToRefs(productsStore)
+async function fetchAndSetProducts() {
+  try {
+    const { entities } = await getProducts()
+    products.value = entities
+  }
+  catch (error) {
+    console.error('Error fetching todos:', error)
+  }
+}
+async function handleCreateOrder() {
+  if (!basket.value.length)
+    return
+  try {
+    await createOrder(basket.value)
+    await fetchAndSetProducts()
+    await router.push({ name: 'payment' })
+  }
+  catch (error) {
+    console.error('Error creating order:', error)
+  }
+}
 </script>
 
 <template>
@@ -28,6 +57,8 @@ const showBackButton = computed(() => {
         <component :is="Component" />
       </transition>
     </router-view>
+    <MainButton v-if="basket.length && $route.path !== '/'" :text="`Всего к оплате: ${totalPrice.toString()} ₽`" @click="handleCreateOrder" />
+    <MainButton v-else-if="basket.length && $route.path === '/'" color="#e19746" text="Перейти к оплате" @click="$router.push({ name: 'payment' })" />
   </div>
   <!--  <Confirm v-if="showConfirm === true" message="Hello?" @close="handleConfirmClose" /> -->
 </template>

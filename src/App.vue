@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { BackButton, MainButton } from 'vue-tg'
+import { BackButton, MainButton, useWebApp } from 'vue-tg'
 import { computed } from 'vue'
-import { useColorMode } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import router from '@/router'
 import { useProductsStore } from '@/stores/products'
 import { useProductsApi } from '@/services/products/useProductsApi'
 import { useOrdersApi } from '@/services/orders/useOrdersApi'
 
-const mode = useColorMode()
-console.log(window.Telegram.WebApp)
-
+const { initData, initDataUnsafe } = useWebApp()
+console.log(initData)
+console.log(initDataUnsafe)
 function handleBackButton() {
   router.push('/')
 }

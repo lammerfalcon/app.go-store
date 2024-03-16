@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BackButton, MainButton, useWebApp, useWebAppPopup } from 'vue-tg'
+import { BackButton, ClosingConfirmation, ExpandedViewport, MainButton, useWebApp, useWebAppPopup } from 'vue-tg'
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import router from '@/router'
@@ -46,7 +46,7 @@ async function handleCreateOrder() {
 
           await createOrder(payload)
           await fetchAndSetProducts()
-          useWebApp().close()
+          return useWebApp().close()
         }
         catch (error) {
           console.error('Error creating order:', error)
@@ -68,6 +68,9 @@ const mainButtonText = computed(() => {
 </script>
 
 <template>
+  <ExpandedViewport />
+  <ClosingConfirmation />
+
   <div class="p-4 max-w-[1280px] mx-auto">
     <!-- Добавляйте больше условий для других типов устройств -->
     <Button v-if="showBackButton && deviceType === 'Android'" class="mb-4" size="sm" @click="handleBackButton">

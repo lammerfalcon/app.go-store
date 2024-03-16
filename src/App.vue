@@ -30,17 +30,27 @@ async function fetchAndSetProducts() {
   }
 }
 async function handleCreateOrder() {
-  if (!basket.value.length)
-    return
-  try {
-    await createOrder(basket.value)
-    await fetchAndSetProducts()
+  if (router.currentRoute.value.path === '/') {
     await router.push({ name: 'payment' })
   }
-  catch (error) {
-    console.error('Error creating order:', error)
+  else {
+    try {
+      await createOrder(basket.value)
+      await fetchAndSetProducts()
+    }
+    catch (error) {
+      console.error('Error creating order:', error)
+    }
   }
 }
+const mainButtonText = computed(() => {
+  let text = null
+  if (basket.value.length && router.currentRoute.value.path !== '/')
+    text = `Всего к оплате: ${totalPrice.value} ₽`
+  else if (basket.value.length && router.currentRoute.value.path === '/')
+    text = 'Перейти к оплате'
+  return text
+})
 </script>
 
 <template>
@@ -57,8 +67,7 @@ async function handleCreateOrder() {
         <component :is="Component" />
       </transition>
     </router-view>
-    <MainButton v-if="basket.length && $route.path !== '/'" :text="`Всего к оплате: ${totalPrice.toString()} ₽`" @click="handleCreateOrder" />
-    <MainButton v-else-if="basket.length && $route.path === '/'" color="#e19746" text="Перейти к оплате" @click="$router.push({ name: 'payment' })" />
+    <MainButton v-if="basket.length" color="#e19746" :text="mainButtonText" @click="handleCreateOrder" />
   </div>
   <!--  <Confirm v-if="showConfirm === true" message="Hello?" @close="handleConfirmClose" /> -->
 </template>

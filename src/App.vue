@@ -36,9 +36,15 @@ async function handleCreateOrder() {
   }
   else {
     try {
-      showConfirm('Вы перевели деньги на карту?', async (ok) => {
+      showConfirm('Вы подтверждаете перевод?', async (ok) => {
         if (ok) {
-          await createOrder(basket.value)
+          const payload = {
+            order: {
+              products: basket.value,
+            },
+            user: initDataUnsafe.user,
+          }
+          await createOrder(payload)
           await fetchAndSetProducts()
           useWebApp().close()
         }
@@ -83,22 +89,22 @@ const mainButtonText = computed(() => {
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all 0.3s;
+  transition: all 0.5s ease-out;
 }
 .slide-left-enter-from {
   opacity: 0;
-  transform: translate(0, 220px);
+  transform: translate(0, 370px);
 }
 .slide-left-leave-to {
   opacity: 0;
-  transform: translate(0, -220px);
+  transform: translate(0, -370px);
 }
 .slide-right-enter-from {
   opacity: 0;
-  transform: translate(0, -220px);
+  transform: translate(0, -370px);
 }
 .slide-right-leave-to {
   opacity: 0;
-  transform: translate(0, 220px);
+  transform: translate(0, 370px);
 }
 </style>

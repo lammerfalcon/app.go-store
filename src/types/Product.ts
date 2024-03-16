@@ -34,8 +34,9 @@ export interface ProductResponseEntities {
   media: ProductResponseEntitiesMedia[]
   preview: string
   count: number | null
-  basketCount: number | null
-  isAnimatingProcess: boolean
+  basketCount?: number | null
+  isAnimatingProcess?: boolean
+  animationTimeoutId?: number | null
 }
 export interface ProductResponseMetaLinks {
   url?: any

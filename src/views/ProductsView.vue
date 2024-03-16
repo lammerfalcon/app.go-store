@@ -60,6 +60,9 @@ onMounted(async () => {
     <!--      вперед -->
     <!--    </div> -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 gap-y-5">
+      <div class="col-span-2 rounded-xl text-secondary shadow-md bg-primary/80 p-4 text-lg  font-extralight tracking-wide">
+        Домашний ремесленный хлеб своими руками и от всего сердца 💛💛💛
+      </div>
       <div v-for="product in products" :key="product.id" class="shadow-md rounded-xl flex flex-col">
         <div class="p-0 relative ">
           <img class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="">

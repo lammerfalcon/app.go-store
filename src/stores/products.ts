@@ -20,7 +20,7 @@ export const useProductsStore = defineStore('products', () => {
   })
   const totalPrice = computed(() => {
     return basket.value.reduce((acc, product) => {
-      return acc + product.price * product.stock
+      return acc + product.price * product.count
     }, 0)
   })
   return { products, basket, totalPrice }

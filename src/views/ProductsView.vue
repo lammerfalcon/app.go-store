@@ -26,18 +26,18 @@ function changeCount(product: ProductResponseEntities, direction: 'inc' | 'dec')
     clearTimeout(product.animationTimeoutId)
 
   product.basketCount = product.basketCount ?? 0
-  product.count = product.count ?? 0
+  product.stock = product.stock ?? 0
 
-  const canIncrease = direction === 'inc' && product.count > 0
+  const canIncrease = direction === 'inc' && product.stock > 0
   const canDecrease = direction === 'dec' && product.basketCount > 0
 
   if (canIncrease) {
     product.basketCount += 1
-    product.count -= 1
+    product.stock -= 1
   }
   else if (canDecrease) {
     product.basketCount -= 1
-    product.count += 1
+    product.stock += 1
   }
 
   product.animationTimeoutId = setTimeout(() => {
@@ -76,7 +76,7 @@ onMounted(async () => {
             {{ product.name }}
           </span>
           <span class="text-muted-foreground leading-3 text-[12px]">
-            Осталось: {{ product.count }}
+            Осталось: {{ product.stock }}
           </span>
           <div class="mt-auto flex-row flex items-center justify-between">
             <div class="text-xl">
@@ -95,7 +95,7 @@ onMounted(async () => {
                 –
               </Button>
               <Button
-                size="sm" :disabled="!product.count" @click="changeCount(product, 'inc')"
+                size="sm" :disabled="!product.stock" @click="changeCount(product, 'inc')"
               >
                 +
               </Button>

@@ -90,7 +90,7 @@ const { copy, copied, isSupported } = useClipboard({ cardNumber })
         Имя держателя карты
       </h4>
       <h1 class="">
-        IRINA S.
+        MOE IMYA
       </h1>
     </div>
   </div>

@@ -26,6 +26,7 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "vant": "^4.8.5",
+    "vaul-vue": "^0.1.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
     "vue-tg": "^0.4.0"

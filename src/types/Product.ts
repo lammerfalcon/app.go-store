@@ -29,6 +29,7 @@ export interface ProductResponseEntitiesMedia {
 }
 export interface ProductResponseEntities {
   id: number
+  description?: string
   name: string
   price: number
   media: ProductResponseEntitiesMedia[]

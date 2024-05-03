@@ -57,15 +57,15 @@ function changeCount(product: ProductResponseEntities, direction: 'inc' | 'dec')
     product.animationTimeoutId = null
   }, 150)
 }
-function showExtendedInfo(product: ProductResponseEntities) {
-  selectedProduct.value = product
-  isOpen.value = true
-}
 onMounted(async () => {
   if (products.value.length)
     return
   await fetchAndSetProducts()
 })
+function showExtendedInfo(product: ProductResponseEntities) {
+  selectedProduct.value = product
+  isOpen.value = true
+}
 </script>
 
 <template>

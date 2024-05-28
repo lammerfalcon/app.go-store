@@ -19,7 +19,7 @@ const showBackButton = computed(() => {
 const productsStore = useProductsStore()
 const { getProducts } = useProductsApi()
 const { createOrder } = useOrdersApi()
-const { products, basket } = storeToRefs(productsStore)
+const { products, basket, totalPrice } = storeToRefs(productsStore)
 async function fetchAndSetProducts() {
   try {
     const { entities } = await getProducts()
@@ -61,7 +61,7 @@ const mainButtonText = computed(() => {
   if (basket.value.length && router.currentRoute.value.path !== '/')
     text = 'Подтвердить перевод'
   else if (basket.value.length && router.currentRoute.value.path === '/')
-    text = 'Перейти к оплате'
+    text = `Всего: ${totalPrice.value}. Перейти к оплате`
   return text
 })
 </script>

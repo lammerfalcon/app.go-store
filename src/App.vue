@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 import router from '@/router'
 import { useProductsStore } from '@/stores/products'
 import { useProductsApi } from '@/services/products/useProductsApi'
-import { useOrdersApi } from '@/services/orders/useOrdersApi'
+import { type Payload, useOrdersApi } from '@/services/orders/useOrdersApi'
 import { useDeviceDetect } from '@/composables/useDeviceDetect'
 
 const { initDataUnsafe } = useWebApp()
@@ -37,11 +37,11 @@ async function handleCreateOrder() {
     showConfirm('Вы подтверждаете перевод?', async (ok) => {
       if (ok) {
         try {
-          const payload = {
+          const payload: Payload = {
             order: {
               products: basket.value,
             },
-            user: initDataUnsafe.user,
+            client: initDataUnsafe.user,
           }
 
           await createOrder(payload)

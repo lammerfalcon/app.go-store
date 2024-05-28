@@ -1,6 +1,6 @@
 import { useApi } from '../api'
 
-interface Payload {
+export interface Payload {
   order: {
     products: {
       product_id: number
@@ -9,7 +9,7 @@ interface Payload {
       name: string
     }[]
   }
-  user: WebAppUser | undefined
+  client: WebAppUser | undefined
 
 }
 export function useOrdersApi() {

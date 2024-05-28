@@ -76,7 +76,7 @@ function showExtendedInfo(product: ProductResponseEntities) {
     <!--    </div> -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 gap-y-5">
       <div class="col-span-2 rounded-xl text-secondary shadow-md bg-primary/80 p-4 text-lg  font-extralight tracking-wide">
-        Домашний ремесленный хлеб своими руками и&nbsp;от&nbsp;всего сердца 💛
+        Клавиатура — главный элемент любого стола. Сделайте выбор в пользу лучшей! 🚀
       </div>
       <Drawer v-if="selectedProduct" v-model:open="isOpen">
         <DrawerContent>
@@ -121,7 +121,7 @@ function showExtendedInfo(product: ProductResponseEntities) {
             </div>
             <DrawerClose>
               <Button variant="outline">
-                Cancel
+                Закрыть
               </Button>
             </DrawerClose>
           </DrawerFooter>

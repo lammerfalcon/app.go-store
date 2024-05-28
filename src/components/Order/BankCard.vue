@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useClipboard } from '@vueuse/core'
 import CopyIcon from '@/components/ui/icons/CopyIcon.vue'
 
-const cardNumber = ref('1234 1234 1234 1234')
+const cardNumber = ref('4452 1298 3432 5282')
 
 const { copy, copied, isSupported } = useClipboard({ cardNumber })
 </script>
@@ -90,7 +90,7 @@ const { copy, copied, isSupported } = useClipboard({ cardNumber })
         Имя держателя карты
       </h4>
       <h1 class="">
-        MOE IMYA
+        Gavrilov R.
       </h1>
     </div>
   </div>

@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 import { useProductsStore } from '@/stores/products'
-import BankCard from '@/components/Order/BankCard.vue'
+import BankCard from '@/components/order/BankCard.vue'
 import router from '@/router'
 
 const productsStore = useProductsStore()

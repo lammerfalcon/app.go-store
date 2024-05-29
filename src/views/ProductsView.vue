@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import type { ProductResponseEntities } from '@/types/Product'
-import { useProductsApi } from '@/services/products/useProductsApi'
 import { useProductsStore } from '@/stores/products'
 import {
   Drawer,
@@ -15,21 +14,13 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
+import { useUserStore } from '@/stores/user'
 
-const { getProducts } = useProductsApi()
 const productsStore = useProductsStore()
 const { products } = storeToRefs(productsStore)
 const selectedProduct = ref<ProductResponseEntities>(null)
 const isOpen = ref(false)
-async function fetchAndSetProducts() {
-  try {
-    const { entities } = await getProducts()
-    products.value = entities
-  }
-  catch (error) {
-    console.error('Error fetching todos:', error)
-  }
-}
+
 function changeCount(product: ProductResponseEntities, direction: 'inc' | 'dec') {
   product.isAnimatingProcess = true
 
@@ -57,26 +48,21 @@ function changeCount(product: ProductResponseEntities, direction: 'inc' | 'dec')
     product.animationTimeoutId = null
   }, 150)
 }
-onMounted(async () => {
-  if (products.value.length)
-    return
-  await fetchAndSetProducts()
-})
+
 function showExtendedInfo(product: ProductResponseEntities) {
   selectedProduct.value = product
   isOpen.value = true
 }
+const userStore = useUserStore()
 </script>
 
 <template>
   <div>
     <div class="fixed top-0" />
-    <!--    <div @click="handleCreateOrder"> -->
-    <!--      вперед -->
-    <!--    </div> -->
+
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 gap-y-5">
-      <div class="col-span-2 rounded-xl text-secondary shadow-md bg-primary/80 p-4 text-lg  font-extralight tracking-wide">
-        Клавиатура — главный элемент любого стола. Сделайте выбор в пользу лучшей! 🚀
+      <div v-if="userStore.shopConfig?.greeting_text" class="col-span-2 rounded-xl text-secondary shadow-md bg-primary/80 p-4 text-lg  font-extralight tracking-wide">
+        {{ userStore.shopConfig?.greeting_text }}
       </div>
       <Drawer v-if="selectedProduct" v-model:open="isOpen">
         <DrawerContent>
@@ -128,9 +114,9 @@ function showExtendedInfo(product: ProductResponseEntities) {
         </DrawerContent>
       </Drawer>
 
-      <div v-for="product in products" :key="product.id" class="shadow-md rounded-xl flex flex-col cursor-pointer" @click="showExtendedInfo(product)">
+      <div v-for="product in products" :key="product.id" class="shadow-md rounded-xl flex flex-col cursor-pointer" @click.prevent>
         <div class="p-0 relative ">
-          <img loading="lazy" class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="">
+          <img loading="lazy" class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="" @click="showExtendedInfo(product)">
           <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
             к заказу — {{ product.basketCount }}
           </Badge>

@@ -1,25 +1,47 @@
 <script setup lang="ts">
 import { BackButton, ClosingConfirmation, ExpandedViewport, MainButton, useWebApp, useWebAppPopup } from 'vue-tg'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import router from '@/router'
 import { useProductsStore } from '@/stores/products'
-import { useProductsApi } from '@/services/products/useProductsApi'
 import { type Payload, useOrdersApi } from '@/services/orders/useOrdersApi'
 import { useDeviceDetect } from '@/composables/useDeviceDetect'
+import { useUserApi } from '@/services/user/useUserApi'
+import { useUserStore } from '@/stores/user'
+import { Button } from '@/components/ui/button'
+import { useProductsApi } from '@/services/products/useProductsApi'
+import ProductsMockList from '@/components/products/ProductsMockList.vue'
 
 const { initDataUnsafe } = useWebApp()
 const { showConfirm, showPopup } = useWebAppPopup()
-function handleBackButton() {
-  router.push('/')
-}
-const showBackButton = computed(() => {
-  return router.currentRoute.value.path !== '/'
-})
-const productsStore = useProductsStore()
-const { getProducts } = useProductsApi()
+const { deviceType } = useDeviceDetect()
+const { getUserInfo } = useUserApi()
 const { createOrder } = useOrdersApi()
-const { products, basket, totalPrice } = storeToRefs(productsStore)
+const productsStore = useProductsStore()
+const { storeUserInfo } = useUserStore()
+const { basket, totalPrice } = storeToRefs(productsStore)
+const { getProducts } = useProductsApi()
+const { products } = storeToRefs(productsStore)
+const loading = ref(true)
+const color = ref('')
+
+onMounted(async () => {
+  try {
+    // const rootStyles = getComputedStyle(document.documentElement)
+    // color.value = rootStyles.getPropertyValue('--primary').trim()
+    loading.value = true
+    const response = await getUserInfo()
+    await fetchAndSetProducts()
+    storeUserInfo(response.entities.user)
+  }
+  catch (error) {
+    console.error('Error fetching user info:', error)
+  }
+  finally {
+    loading.value = false
+  }
+})
+
 async function fetchAndSetProducts() {
   try {
     const { entities } = await getProducts()
@@ -55,7 +77,15 @@ async function handleCreateOrder() {
     })
   }
 }
-const { deviceType } = useDeviceDetect()
+
+function handleBackButton() {
+  router.push('/')
+}
+
+const showBackButton = computed(() => {
+  return router.currentRoute.value.path !== '/'
+})
+
 const mainButtonText = computed(() => {
   let text = null
   if (basket.value.length && router.currentRoute.value.path !== '/')
@@ -67,54 +97,19 @@ const mainButtonText = computed(() => {
 </script>
 
 <template>
-  <ExpandedViewport />
-  <ClosingConfirmation />
-
-  <div class="p-4 max-w-[1280px] mx-auto">
-    <!-- Добавляйте больше условий для других типов устройств -->
-    <Button v-if="showBackButton && deviceType === 'Android'" class="mb-4" size="sm" @click="handleBackButton">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="m5.83 9l5.58-5.58L10 2l-8 8l8 8l1.41-1.41L5.83 11H18V9z" /></svg>
-    </Button>
-
-    <BackButton v-if="showBackButton && deviceType !== 'Android'" @click="handleBackButton" />
-    <!--    TODO: persisted state with basket clear -->
-    <!--    <Button class="fixed top-5 left-5 z-50 bg-primary/80"> -->
-    <!--      <span class="opacity-100"> -->
-    <!--        Очистить корзину -->
-    <!--      </span> -->
-    <!--    </Button> -->
-    <router-view />
-    <!--    <router-view v-slot="{ Component, route }"> -->
-    <!--      <transition mode="out-in" :name="route.meta.transition || 'fade'"> -->
-    <!--        <component :is="Component" /> -->
-    <!--      </transition> -->
-    <!--    </router-view> -->
-    <MainButton v-if="basket.length" color="#e19746" :text="mainButtonText" @click="handleCreateOrder" />
+  <div>
+    <ExpandedViewport />
+    <ClosingConfirmation />
+    <div v-if="!loading" class="p-4 max-w-[1280px] mx-auto">
+      <Button v-if="showBackButton && deviceType === 'Android'" class="mb-4" size="sm" @click="handleBackButton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="m5.83 9l5.58-5.58L10 2l-8 8l8 8l1.41-1.41L5.83 11H18V9z" /></svg>
+      </Button>
+      <BackButton v-if="showBackButton && deviceType !== 'Android'" @click="handleBackButton" />
+      <router-view />
+      <MainButton v-if="basket.length" :text="mainButtonText" @click="handleCreateOrder" />
+    </div>
+    <div v-else class="p-4 max-w-[1280px] mx-auto blur">
+      <ProductsMockList />
+    </div>
   </div>
-  <!--  <Confirm v-if="showConfirm === true" message="Hello?" @close="handleConfirmClose" /> -->
 </template>
-
-<style scoped>
-/*.slide-left-enter-active,
-.slide-left-leave-active,
-.slide-right-enter-active,
-.slide-right-leave-active {
-  transition: all 0.6s ease-out;
-}
-.slide-left-enter-from {
-  opacity: 0;
-  transform: translate(0, 370px);
-}
-.slide-left-leave-to {
-  opacity: 0;
-  transform: translate(0, -370px);
-}
-.slide-right-enter-from {
-  opacity: 0;
-  transform: translate(0, -370px);
-}
-.slide-right-leave-to {
-  opacity: 0;
-  transform: translate(0, 370px);
-}*/
-</style>

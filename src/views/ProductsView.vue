@@ -28,19 +28,16 @@ function changeCount(product: ProductResponseEntities, direction: 'inc' | 'dec')
     clearTimeout(product.animationTimeoutId)
 
   product.basketCount = product.basketCount ?? 0
-  product.stock = product.stock ?? 0
+  // product.stock = product.stock ?? 0
 
-  const canIncrease = direction === 'inc' && product.stock > 0
+  const canIncrease = direction === 'inc'
   const canDecrease = direction === 'dec' && product.basketCount > 0
 
-  if (canIncrease) {
+  if (canIncrease)
     product.basketCount += 1
-    product.stock -= 1
-  }
-  else if (canDecrease) {
+
+  else if (canDecrease)
     product.basketCount -= 1
-    product.stock += 1
-  }
 
   product.animationTimeoutId = setTimeout(() => {
     product.isAnimatingProcess = false
@@ -75,11 +72,11 @@ const userStore = useUserStore()
           </DrawerHeader>
           <DrawerFooter>
             <div class="p-2 flex-1 flex  gap-2 flex-col">
-              <span class="leading-[14px] text-[14px]  ">
-                {{ selectedProduct.name }}
-              </span>
+<!--              <span class="leading-[14px] text-[14px]  ">-->
+<!--                {{ selectedProduct.name }}-->
+<!--              </span>-->
               <span class="text-muted-foreground leading-3 text-[12px]">
-                Осталось: {{ selectedProduct.stock }}
+                В корзине: {{ selectedProduct.basketCount }}
               </span>
               <div class="mt-auto flex-row flex items-center justify-between">
                 <div class="text-xl">
@@ -98,7 +95,7 @@ const userStore = useUserStore()
                     –
                   </Button>
                   <Button
-                    size="sm" :disabled="!selectedProduct.stock" @click.stop="changeCount(selectedProduct, 'inc')"
+                    size="sm" @click.stop="changeCount(selectedProduct, 'inc')"
                   >
                     +
                   </Button>
@@ -125,11 +122,11 @@ const userStore = useUserStore()
           <span class="leading-[14px] text-[14px]  ">
             {{ product.name }}
           </span>
-          <span class="text-muted-foreground leading-3 text-[12px]">
-            Осталось: {{ product.stock }}
-          </span>
+          <!--          <span class="text-muted-foreground leading-4 text-[12px]"> -->
+          <!--            Описание: -->
+          <!--          </span> -->
           <div class="mt-auto flex-row flex items-center justify-between">
-            <div class="text-xl">
+            <div class="text-md">
               {{ product.price }}<span class="text-sm">₽</span>
             </div>
             <div v-if="!product.basketCount">
@@ -145,7 +142,7 @@ const userStore = useUserStore()
                 –
               </Button>
               <Button
-                size="sm" :disabled="!product.stock" @click.stop="changeCount(product, 'inc')"
+                size="sm" @click.stop="changeCount(product, 'inc')"
               >
                 +
               </Button>

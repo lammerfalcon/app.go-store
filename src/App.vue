@@ -94,10 +94,43 @@ const mainButtonText = computed(() => {
     text = `Всего: ${totalPrice.value}. Перейти к оплате`
   return text
 })
+// const theme = ref('default')
+
+// function setTheme(newTheme) {
+//   document.documentElement.className = '' // Reset any existing theme classes
+//   if (newTheme !== 'default')
+//     document.documentElement.classList.add(`theme-${newTheme}`)
+//
+//   theme.value = newTheme
+// }
 </script>
 
 <template>
   <div>
+    <!--    <div class="grid grid-cols-3 gap-6 w-1/2"> -->
+    <!--      <button @click="setTheme('default')"> -->
+    <!--        Default Theme -->
+    <!--      </button> -->
+    <!--      <button class="text-yellow-500" @click="setTheme('yellow')"> -->
+    <!--        Yellow Theme -->
+    <!--      </button> -->
+    <!--      <button class="text-violet-500" @click="setTheme('violet')"> -->
+    <!--        Violet Theme -->
+    <!--      </button> -->
+    <!--      <button class="text-blue-500" @click="setTheme('blue')"> -->
+    <!--        blue Theme -->
+    <!--      </button> -->
+    <!--      <button class="text-green-500" @click="setTheme('green')"> -->
+    <!--        green Theme -->
+    <!--      </button> -->
+    <!--      <button class="text-orange-500" @click="setTheme('orange')"> -->
+    <!--        green Theme -->
+    <!--      </button> -->
+    <!--      <button class="text-rose-500" @click="setTheme('rose')"> -->
+    <!--        green Theme -->
+    <!--      </button> -->
+
+    <!--    </div> -->
     <ExpandedViewport />
     <ClosingConfirmation />
     <div v-if="!loading" class="p-4 max-w-[1280px] mx-auto">

@@ -8,7 +8,7 @@ const { initDataUnsafe: { start_param } } = useWebApp()
 export function useApi<T>(url: string, options: FetchOptions = {}) {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
-    'X-Start-Param': start_param || import.meta.env.DEV ? 'lammerfalcon' : '',
+    'X-Start-Param': start_param || '',
   }
   const fetchOptions: FetchOptions = {
     baseURL: import.meta.env.VITE_BASE_API_URL,

@@ -125,7 +125,7 @@ const userStore = useUserStore()
           <!--          <span class="text-muted-foreground leading-4 text-[12px]"> -->
           <!--            Описание: -->
           <!--          </span> -->
-          <div class="mt-auto flex-row flex items-center justify-between">
+          <div @click.prevent.stop class="mt-auto flex-row flex items-center justify-between">
             <div class="text-md">
               {{ product.price }}<span class="text-sm">₽</span>
             </div>

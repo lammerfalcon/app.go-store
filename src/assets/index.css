@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
+* {
+  touch-action: manipulation;
+}
 body {
   min-height: 100vh;
 }

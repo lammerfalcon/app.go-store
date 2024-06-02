@@ -62,7 +62,7 @@ async function handleCreateOrder() {
           const payload: Payload = {
             order: {
               products: basket.value,
-              comment: comment,
+              comment: comment.value,
             },
             client: initDataUnsafe.user,
           }

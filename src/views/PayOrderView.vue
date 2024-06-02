@@ -34,7 +34,8 @@ onMounted(async () => {
       </ul>
     </section>
     <section class="p-4 bg-secondary rounded-xl">
-      <Input v-model="comment" type="text" />
+      <Label for="comment">Комментарий к заказу</Label>
+      <Textarea id="comment" placeholder="Напишите уточняющую информацию" />
     </section>
     <section class="p-4 bg-secondary rounded-xl">
       <h3 class="text-xl font-extralight mb-1">

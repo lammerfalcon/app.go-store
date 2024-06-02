@@ -33,5 +33,6 @@ declare module 'vue' {
     ProductsMockList: typeof import('./src/components/products/ProductsMockList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Textarea: typeof import('./src/components/ui/textarea/Textarea.vue')['default']
   }
 }

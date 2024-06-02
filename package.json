@@ -15,7 +15,7 @@
   "dependencies": {
     "@erfanmola/televue": "^0.1.6",
     "@radix-icons/vue": "^1.0.0",
-    "@vueuse/core": "^10.9.0",
+    "@vueuse/core": "^10.10.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "defu": "^6.1.4",

@@ -2,11 +2,12 @@
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 import { useProductsStore } from '@/stores/products'
+import { Input } from '@/components/ui/input'
 import BankCard from '@/components/order/BankCard.vue'
 import router from '@/router'
 
 const productsStore = useProductsStore()
-const { basket, totalPrice } = storeToRefs(productsStore)
+const { basket, totalPrice, comment } = storeToRefs(productsStore)
 onMounted(async () => {
   if (!basket.value.length)
     await router.push({ name: 'products' })
@@ -31,6 +32,9 @@ onMounted(async () => {
           После успешного перевода нажмите кнопку "Подтвердить оплату"
         </li>
       </ul>
+    </section>
+    <section class="p-4 bg-secondary rounded-xl">
+      <Input v-model="comment" type="text" />
     </section>
     <section class="p-4 bg-secondary rounded-xl">
       <h3 class="text-xl font-extralight mb-1">

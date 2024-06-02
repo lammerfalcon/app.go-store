@@ -4,6 +4,7 @@ import type { ProductResponseEntities } from '@/types/Product'
 
 export const useProductsStore = defineStore('products', () => {
   const products = ref<ProductResponseEntities[]>([])
+  const comment = ref<string>('')
 
   const basket = computed(() => {
     return products.value.reduce<{ product_id: number, count: number, price: number, name: string }[]>((acc, product) => {
@@ -23,6 +24,6 @@ export const useProductsStore = defineStore('products', () => {
       return acc + product.price * product.count
     }, 0)
   })
-  return { products, basket, totalPrice }
+  return { products, basket, totalPrice, comment }
 })
 // TODO: add persist if needed

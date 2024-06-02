@@ -8,6 +8,7 @@ export interface Payload {
       price: number
       name: string
     }[]
+    comment: string
   }
   client: WebAppUser | undefined
 

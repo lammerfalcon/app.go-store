@@ -19,7 +19,7 @@ const { getUserInfo } = useUserApi()
 const { createOrder } = useOrdersApi()
 const productsStore = useProductsStore()
 const { storeUserInfo } = useUserStore()
-const { basket, totalPrice } = storeToRefs(productsStore)
+const { basket, totalPrice, comment } = storeToRefs(productsStore)
 const { getProducts } = useProductsApi()
 const { products } = storeToRefs(productsStore)
 const loading = ref(true)
@@ -62,6 +62,7 @@ async function handleCreateOrder() {
           const payload: Payload = {
             order: {
               products: basket.value,
+              comment: comment,
             },
             client: initDataUnsafe.user,
           }

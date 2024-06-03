@@ -2,9 +2,8 @@
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 import { useProductsStore } from '@/stores/products'
-import { Input } from '@/components/ui/input'
-import BankCard from '@/components/order/BankCard.vue'
 import router from '@/router'
+import IndividualPayment from '@/components/order/IndividualPayment.vue'
 
 const productsStore = useProductsStore()
 const { basket, totalPrice, comment } = storeToRefs(productsStore)
@@ -19,20 +18,7 @@ onMounted(async () => {
     <!--    <div @click="router.back()"> -->
     <!--      назад -->
     <!--    </div> -->
-    <BankCard />
-    <section class="p-4 bg-secondary rounded-xl">
-      <h3 class="text-xl">
-        Как оплатить?
-      </h3>
-      <ul class="list-disc px-4 mt-2">
-        <li class=" leading-5">
-          Сделайте перевод по указанному номеру карты
-        </li>
-        <li class="leading-5">
-          После успешного перевода нажмите кнопку "Подтвердить оплату"
-        </li>
-      </ul>
-    </section>
+    <IndividualPayment />
 
     <section class="p-4 bg-secondary rounded-xl">
       <h3 class="text-xl font-extralight mb-1">

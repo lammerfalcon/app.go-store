@@ -76,7 +76,9 @@ async function handleCreateOrder() {
           }
 
           await createOrder(payload)
-          openLink('https://yoomoney.ru/checkout/payments/v2/contract?orderId=2defcbfb-000f-5000-a000-15637e66aa71')
+          window.Telegram.WebApp.close()
+
+          // openLink('https://yoomoney.ru/checkout/payments/v2/contract?orderId=2defcbfb-000f-5000-a000-15637e66aa71')
           // await router.push({ name: 'payment' })
         }
         catch (error) {

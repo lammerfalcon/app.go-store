@@ -33,10 +33,7 @@ onMounted(async () => {
         </li>
       </ul>
     </section>
-    <section class="p-4 bg-secondary rounded-xl">
-      <Label for="comment">Комментарий к заказу</Label>
-      <Textarea id="comment" placeholder="Напишите уточняющую информацию" />
-    </section>
+
     <section class="p-4 bg-secondary rounded-xl">
       <h3 class="text-xl font-extralight mb-1">
         Ваш заказ:
@@ -61,6 +58,13 @@ onMounted(async () => {
         <div>Всего</div>
         <div>{{ totalPrice }}₽</div>
       </div>
+    </section>
+    <section class="p-4 flex flex-col gap-2 bg-secondary rounded-xl">
+      <Label for="comment">Комментарий к заказу:</Label>
+      <Textarea id="comment" placeholder="Напишите уточняющую информацию" />
+      <p class="text-sm text-muted-foreground">
+        Your message will be copied to the support team.
+      </p>
     </section>
   </div>
 </template>

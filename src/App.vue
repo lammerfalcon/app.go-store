@@ -4,9 +4,8 @@ import {
   ClosingConfirmation,
   ExpandedViewport,
   MainButton,
-  SettingsButton, ShareWidget,
   useWebApp,
-  useWebAppPopup
+  useWebAppPopup,
 } from 'vue-tg'
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -75,7 +74,9 @@ async function handleCreateOrder() {
             client: initDataUnsafe.user,
           }
 
-          await createOrder(payload)
+          const resposne = await createOrder(payload)
+          resposne.link = 'https://go-store.space/'
+          window.open(resposne.link, '_blank')
           window.Telegram.WebApp.close()
         }
         catch (error) {

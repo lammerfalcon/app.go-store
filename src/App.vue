@@ -74,9 +74,13 @@ async function handleCreateOrder() {
             client: initDataUnsafe.user,
           }
 
-          const resposne = await createOrder(payload)
-          resposne.link = 'https://go-store.space/'
-          window.open(resposne.link, '_blank')
+          const response = await createOrder(payload)
+          response.link = 'https://go-store.space/'
+
+          const newTab = window.open(response.link, '_blank')
+          if (!newTab || newTab.closed || typeof newTab.closed === 'undefined')
+            window.location.href = response.link
+
           window.Telegram.WebApp.close()
         }
         catch (error) {

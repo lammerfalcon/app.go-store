@@ -5,6 +5,7 @@ import {
   ExpandedViewport,
   MainButton,
   useWebApp,
+  useWebAppNavigation,
   useWebAppPopup,
 } from 'vue-tg'
 import { computed, onMounted, ref } from 'vue'
@@ -31,7 +32,7 @@ const { getProducts } = useProductsApi()
 const { products } = storeToRefs(productsStore)
 const loading = ref(true)
 const color = ref('')
-
+const { openLink } = useWebAppNavigation()
 onMounted(async () => {
   try {
     // const rootStyles = getComputedStyle(document.documentElement)
@@ -60,7 +61,7 @@ async function fetchAndSetProducts() {
 }
 async function handleCreateOrder() {
   if (router.currentRoute.value.path === '/') {
-    await router.push({ name: 'payment' })
+    await router.push({ name: 'order' })
   }
   else {
     showConfirm('Вы подтверждаете перевод?', async (ok) => {
@@ -75,7 +76,8 @@ async function handleCreateOrder() {
           }
 
           await createOrder(payload)
-          window.Telegram.WebApp.close()
+          openLink('https://yoomoney.ru/checkout/payments/v2/contract?orderId=2defcbfb-000f-5000-a000-15637e66aa71')
+          // await router.push({ name: 'payment' })
         }
         catch (error) {
           console.error('Error creating order:', error)

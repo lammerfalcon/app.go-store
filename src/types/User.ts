@@ -1,6 +1,7 @@
 export interface IShopSettings {
   yookassa?: IYookassa
   card?: ICard
+  bank?: string
   shop_name: string
   payment_type: PaymentType
   greeting_text: string

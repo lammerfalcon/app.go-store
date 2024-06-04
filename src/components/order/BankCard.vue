@@ -20,7 +20,7 @@ const { copy, copied } = useClipboard()
         Наименование банка:
       </h4>
       <div class="text-xl text-secondary">
-        {{ shopConfig?.card?.number }}
+        {{ shopConfig?.bank }}
       </div>
     </div>
     <button

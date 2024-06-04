@@ -13,7 +13,7 @@ import type { ProductResponseEntities } from '@/types/Product'
 import { useChangeCount } from '@/composables/useChangeCount'
 
 defineProps<{
-  selectedProduct: ProductResponseEntities
+  selectedProduct: ProductResponseEntities | null
 }>()
 
 const isOpen = defineModel<boolean>()

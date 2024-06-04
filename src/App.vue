@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button'
 import { useProductsApi } from '@/services/products/useProductsApi'
 import ProductsMockList from '@/components/products/ProductsMockList.vue'
 import Spinner from '@/components/Loading/Spinner.vue'
+import type { IOrderResponse } from '@/types/Order'
 
 const { initDataUnsafe } = useWebApp()
 const { showConfirm, showPopup } = useWebAppPopup()
@@ -29,9 +30,8 @@ const { getUserInfo } = useUserApi()
 const { createOrder } = useOrdersApi()
 const productsStore = useProductsStore()
 const { storeUserInfo } = useUserStore()
-const { basket, totalPrice, comment } = storeToRefs(productsStore)
+const { basket, totalPrice, comment, products } = storeToRefs(productsStore)
 const { getProducts } = useProductsApi()
-const { products } = storeToRefs(productsStore)
 const loading = ref(true)
 const color = ref('')
 const { openLink } = useWebAppNavigation()
@@ -67,7 +67,8 @@ async function handleCreateOrder() {
     await router.push({ name: 'order' })
   }
   else {
-    showConfirm('Вы подтверждаете перевод?', async (ok) => {
+    const confirmationText = useUserStore().paymentType !== 'card' ? 'Перейти на страницу оплаты?' : 'Вы подтверждаете перевод?'
+    showConfirm(confirmationText, async (ok) => {
       if (ok) {
         try {
           useWebAppMainButton().showMainButtonProgress()
@@ -79,10 +80,9 @@ async function handleCreateOrder() {
             client: initDataUnsafe.user,
           }
 
-          await createOrder(payload)
+          const response: IOrderResponse = await createOrder(payload)
+          openLink(response.entities.confirmation_url)
           window.Telegram.WebApp.close()
-
-          // openLink('https://yoomoney.ru/checkout/payments/v2/contract?orderId=2defcbfb-000f-5000-a000-15637e66aa71')
           // await router.push({ name: 'payment' })
         }
         catch (error) {
@@ -107,7 +107,7 @@ const showBackButton = computed(() => {
 const mainButtonText = computed(() => {
   let text = ''
   if (basket.value.length && router.currentRoute.value.path !== '/')
-    text = 'Подтвердить перевод'
+    useUserStore().paymentType !== 'card' ? text = 'Перейти к оплате' : text = 'Подтвердить перевод'
   else if (basket.value.length && router.currentRoute.value.path === '/')
     text = `Всего: ${totalPrice.value}. Перейти к оплате`
   return text

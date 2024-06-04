@@ -42,5 +42,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Spinner: typeof import('./src/components/Loading/Spinner.vue')['default']
     Textarea: typeof import('./src/components/ui/textarea/Textarea.vue')['default']
+    YoomoneyPayment: typeof import('./src/components/order/YoomoneyPayment.vue')['default']
   }
 }

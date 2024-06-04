@@ -13,7 +13,7 @@ import { useChangeCount } from '@/composables/useChangeCount'
 const productsStore = useProductsStore()
 const { changeCount } = useChangeCount()
 const { products } = storeToRefs(productsStore)
-const selectedProduct = ref<ProductResponseEntities>(null)
+const selectedProduct = ref<ProductResponseEntities | null>(null)
 const isOpen = ref(false)
 
 function showExtendedInfo(product: ProductResponseEntities) {

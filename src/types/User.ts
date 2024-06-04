@@ -1,5 +1,6 @@
 export interface IShopSettings {
-  yookassa: IYookassa
+  yookassa?: IYookassa
+  card?: ICard
   shop_name: string
   payment_type: PaymentType
   greeting_text: string
@@ -24,4 +25,8 @@ export interface IUserResponse {
 export interface IYookassa {
   shop_id: string
   secret_key: string
+}
+export interface ICard {
+  holder: string
+  number: string
 }

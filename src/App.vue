@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { inject } from '@vercel/analytics'
+
 import {
   BackButton,
   ClosingConfirmation,
@@ -22,6 +24,10 @@ import { useProductsApi } from '@/services/products/useProductsApi'
 import ProductsMockList from '@/components/products/ProductsMockList.vue'
 import Spinner from '@/components/Loading/Spinner.vue'
 import type { IOrderResponse } from '@/types/Order'
+
+inject({
+  mode: import.meta.env.DEV ? 'development' : 'production',
+})
 
 const { initDataUnsafe } = useWebApp()
 const { showConfirm, showPopup } = useWebAppPopup()

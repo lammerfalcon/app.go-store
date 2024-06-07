@@ -103,7 +103,7 @@ const productsMock = [
     </div>
     <div v-for="product in productsMock" :key="product.id" class="shadow-md rounded-xl flex flex-col cursor-pointer">
       <div class="p-0 relative ">
-        <img loading="lazy" class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="">
+        <img loading="lazy" class="object-cover rounded-t-xl aspect-[3/4] w-full" :src="product.preview" alt="">
         <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
           к заказу — {{ product.basketCount }}
         </Badge>

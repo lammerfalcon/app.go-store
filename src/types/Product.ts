@@ -34,6 +34,7 @@ export interface ProductResponseEntities {
   price: number
   media: ProductResponseEntitiesMedia[]
   preview: string
+  img_url: string
   stock: number | null
   basketCount?: number | null
   isAnimatingProcess?: boolean

@@ -31,12 +31,12 @@ function showExtendedInfo(product: ProductResponseEntities) {
       <ProductsDrawerInfoCard v-model="isOpen" :selected-product="selectedProduct" />
       <div v-for="product in products" :key="product.id" class="shadow-md rounded-xl flex flex-col cursor-pointer" @click.prevent>
         <div class="p-0 relative ">
-          <img loading="lazy" class="object-cover rounded-t-xl aspect-[4/3] w-full" :src="product.preview" alt="" @click="showExtendedInfo(product)">
+          <img loading="lazy" class="object-cover rounded-t-xl aspect-[3/4] w-full" :src="product.img_url" alt="" @click="showExtendedInfo(product)">
           <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
             к заказу — {{ product.basketCount }}
           </Badge>
         </div>
-        <div class="p-2 flex-1 flex  gap-2 flex-col">
+        <div class="p-3 flex-1 flex  gap-5 flex-col">
           <span class="leading-[14px] text-[14px]  ">
             {{ product.name }}
           </span>

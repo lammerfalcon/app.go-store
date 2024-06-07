@@ -24,7 +24,7 @@ const { changeCount } = useChangeCount()
   <Drawer v-model:open="isOpen">
     <DrawerContent>
       <DrawerHeader>
-        <img class="w-full" :src="selectedProduct?.preview" alt="">
+        <img class="aspect-[3/4] w-full object-cover" :src="selectedProduct?.img_url" alt="">
         <DrawerTitle>
           {{ selectedProduct.name }}
         </DrawerTitle>

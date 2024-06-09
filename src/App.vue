@@ -116,7 +116,7 @@ const mainButtonText = computed(() => {
   if (basket.value.length && router.currentRoute.value.path !== '/')
     useUserStore().paymentType !== 'card' ? text = 'Перейти к оплате' : text = 'Подтвердить перевод'
   else if (basket.value.length && router.currentRoute.value.path === '/')
-    text = `Всего: ${totalPrice.value}. Перейти к оплате`
+    text = `Всего: ${totalPrice.value}₽. Перейти к оплате`
   return text
 })
 // const theme = ref('default')

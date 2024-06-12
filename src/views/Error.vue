@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
+import { useWebAppNavigation } from 'vue-tg'
 import { useUserStore } from '@/stores/user'
 import router from '@/router'
+
+const { openLink } = useWebAppNavigation()
 
 const store = useUserStore()
 const { user } = storeToRefs(store)
@@ -10,6 +13,9 @@ onMounted(() => {
   if (user.value)
     router.push('/')
 })
+function openLandingPage() {
+  openLink('https://go-store.space/')
+}
 </script>
 
 <template>
@@ -28,7 +34,7 @@ onMounted(() => {
     </div>
     <span class="text-sm fixed bottom-10">
       Сделано с помощью
-      <a class="font-semibold text-blue-500 underline" href="https://go-store.space/">go-store</a>
+      <a class="font-semibold text-blue-500 underline" @click="openLandingPage">go-store</a>
     </span>
   </section>
 </template>

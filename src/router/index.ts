@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import ProductsView from '@/views/ProductsView.vue'
 import PayOrderView from '@/views/PayOrderView.vue'
 import PaymentView from '@/views/PaymentView.vue'
+import Error from '@/views/Error.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,7 +26,12 @@ const router = createRouter({
       name: 'payment',
       component: PaymentView,
       meta: { transition: 'slide-left' },
-
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: Error,
+      meta: { transition: 'slide-left' },
     },
   ],
   scrollBehavior() {

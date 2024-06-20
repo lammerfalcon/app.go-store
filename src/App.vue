@@ -88,7 +88,7 @@ async function handleCreateOrder() {
 
           const response: IOrderResponse = await createOrder(payload)
           if (useUserStore().paymentType !== 'card')
-            openLink(response.entities.confirmation_url)
+            openLink('https://rodiongavrilov.com')
           window.Telegram.WebApp.close()
           // await router.push({ name: 'payment' })
         }

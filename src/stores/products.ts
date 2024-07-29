@@ -1,23 +1,29 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { ProductResponseEntities } from '@/types/Product'
+import type { ResponseEntities } from '@/types/Product'
 
 export const useProductsStore = defineStore('products', () => {
-  const products = ref<ProductResponseEntities[]>([])
+  const products = ref<ResponseEntities>({})
   const comment = ref<string>('')
 
   const basket = computed(() => {
-    return products.value.reduce<{ product_id: number, count: number, price: number, name: string }[]>((acc, product) => {
-      if (product.basketCount && product.basketCount > 0) {
-        acc.push({
-          product_id: product.id,
-          count: product.basketCount,
-          price: product.price,
-          name: product.name,
-        })
-      }
-      return acc
-    }, [])
+    const basketItems: { product_id: number, count: number, price: number, name: string }[] = []
+
+    for (const category in products.value) {
+      const categoryProducts = products.value[category]
+      categoryProducts.forEach((product) => {
+        if (product.basketCount && product.basketCount > 0) {
+          basketItems.push({
+            product_id: product.id,
+            count: product.basketCount,
+            price: product.price,
+            name: product.name,
+          })
+        }
+      })
+    }
+
+    return basketItems
   })
   const totalPrice = computed(() => {
     return basket.value.reduce((acc, product) => {
@@ -26,4 +32,3 @@ export const useProductsStore = defineStore('products', () => {
   })
   return { products, basket, totalPrice, comment }
 })
-// TODO: add persist if needed

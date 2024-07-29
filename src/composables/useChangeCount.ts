@@ -2,6 +2,7 @@ import type { ProductResponseEntities } from '@/types/Product'
 
 export function useChangeCount() {
   function changeCount(product: ProductResponseEntities, direction: 'inc' | 'dec') {
+    console.log(product)
     product.isAnimatingProcess = true
 
     if (product.animationTimeoutId)

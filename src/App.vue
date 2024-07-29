@@ -158,7 +158,6 @@ const mainButtonText = computed(() => {
     <!--    </div> -->
     <ExpandedViewport />
     <ClosingConfirmation />
-
     <div v-if="!loading" class="p-4 max-w-[1280px] mx-auto">
       <Button v-if="showBackButton && deviceType === 'Android'" class="mb-4" size="sm" @click="handleBackButton">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="m5.83 9l5.58-5.58L10 2l-8 8l8 8l1.41-1.41L5.83 11H18V9z" /></svg>

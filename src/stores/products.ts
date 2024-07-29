@@ -3,11 +3,11 @@ import { defineStore } from 'pinia'
 import type { ProductResponseEntities } from '@/types/Product'
 
 export const useProductsStore = defineStore('products', () => {
-  const products = ref<ProductResponseEntities[]>([])
+  const products = ref<{ [categoryName: string]: ProductResponseEntities[] }>({})
   const comment = ref<string>('')
 
   const basket = computed(() => {
-    return products.value.reduce<{ product_id: number, count: number, price: number, name: string }[]>((acc, product) => {
+    return Object.values(products.value).map(items => items.reduce<{ product_id: number, count: number, price: number, name: string }[]>((acc, product) => {
       if (product.basketCount && product.basketCount > 0) {
         acc.push({
           product_id: product.id,
@@ -17,7 +17,7 @@ export const useProductsStore = defineStore('products', () => {
         })
       }
       return acc
-    }, [])
+    }, []))
   })
   const totalPrice = computed(() => {
     return basket.value.reduce((acc, product) => {

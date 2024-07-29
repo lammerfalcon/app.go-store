@@ -1,4 +1,4 @@
-# go-store-telegram-webapp
+# bread-telegram-webapp
 
 This template should help get you started developing with Vue 3 in Vite.
 

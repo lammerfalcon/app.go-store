@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { X } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
+
 import {
   Drawer,
   DrawerClose,
@@ -23,8 +25,13 @@ const { changeCount } = useChangeCount()
 <template>
   <Drawer v-model:open="isOpen">
     <DrawerContent>
-      <DrawerHeader>
-        <img class="aspect-[3/4] w-full object-cover" :src="selectedProduct?.img_url" alt="">
+      <DrawerHeader class="relative">
+        <DrawerClose class="absolute top-0 right-4">
+          <Button size="icon" variant="outline">
+            <X />
+          </Button>
+        </DrawerClose>
+        <img class="max-h-[50vh] aspect-[3/4] w-full object-contain" :src="selectedProduct?.img_url" alt="">
         <DrawerTitle>
           {{ selectedProduct.name }}
         </DrawerTitle>
@@ -62,11 +69,6 @@ const { changeCount } = useChangeCount()
             </div>
           </div>
         </div>
-        <DrawerClose>
-          <Button variant="outline">
-            Закрыть
-          </Button>
-        </DrawerClose>
       </DrawerFooter>
     </DrawerContent>
   </Drawer>

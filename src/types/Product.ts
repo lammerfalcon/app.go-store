@@ -64,3 +64,18 @@ export interface BasketProduct {
 export interface Basket {
   basket: BasketProduct[]
 }
+export interface Product {
+  id: number
+  name: string
+  price: number
+  img_url: string
+  preview: string
+  stock: number | null
+  weight: number | null
+  description: string
+  basketCount?: number | null
+}
+
+export interface ResponseEntities {
+  [key: string]: Product[]
+}

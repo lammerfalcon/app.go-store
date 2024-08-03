@@ -1,9 +1,14 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { ProductResponseEntities } from '@/types/Product'
+import type { CategoriesResponseEntities } from '@/types/Categories'
 
 export const useProductsStore = defineStore('products', () => {
   const products = ref<ProductResponseEntities[]>([])
+  const categories = ref<CategoriesResponseEntities[]>([{
+    id: null,
+    name: 'Все',
+  }])
   const comment = ref<string>('')
 
   const basket = computed(() => {
@@ -24,6 +29,5 @@ export const useProductsStore = defineStore('products', () => {
       return acc + product.price * product.count
     }, 0)
   })
-  return { products, basket, totalPrice, comment }
+  return { products, basket, totalPrice, comment, categories }
 })
-// TODO: add persist if needed

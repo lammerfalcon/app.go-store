@@ -24,6 +24,7 @@ import { useProductsApi } from '@/services/products/useProductsApi'
 import ProductsMockList from '@/components/products/ProductsMockList.vue'
 import Spinner from '@/components/Loading/Spinner.vue'
 import type { IOrderResponse } from '@/types/Order'
+import { useCategoriesApi } from '@/services/categories/useCategoriesApi'
 
 inject({
   mode: import.meta.env.DEV ? 'development' : 'production',
@@ -34,9 +35,10 @@ const { showConfirm, showPopup } = useWebAppPopup()
 const { deviceType } = useDeviceDetect()
 const { getUserInfo } = useUserApi()
 const { createOrder } = useOrdersApi()
+const { fetchCategories } = useCategoriesApi()
 const productsStore = useProductsStore()
 const { storeUserInfo } = useUserStore()
-const { basket, totalPrice, comment, products } = storeToRefs(productsStore)
+const { basket, totalPrice, comment, products, categories } = storeToRefs(productsStore)
 const { getProducts } = useProductsApi()
 const loading = ref(true)
 const color = ref('')
@@ -47,8 +49,8 @@ onMounted(async () => {
     // color.value = rootStyles.getPropertyValue('--primary').trim()
     loading.value = true
     const response = await getUserInfo()
-    await fetchAndSetProducts()
     storeUserInfo(response.entities.user)
+    await Promise.all([fetchAndSetProducts(), fetchAndSetCategories()])
   }
   catch (error) {
     console.error('Error fetching user info:', error)
@@ -62,6 +64,15 @@ async function fetchAndSetProducts() {
   try {
     const { entities } = await getProducts()
     products.value = entities
+  }
+  catch (error) {
+    console.error('Error fetching todos:', error)
+  }
+}
+async function fetchAndSetCategories() {
+  try {
+    const { entities } = await fetchCategories()
+    categories.value.push(...entities)
   }
   catch (error) {
     console.error('Error fetching todos:', error)
@@ -111,6 +122,7 @@ function handleBackButton() {
 const showBackButton = computed(() => {
   return router.currentRoute.value.path !== '/'
 })
+
 const mainButtonText = computed(() => {
   let text = ''
   if (basket.value.length && router.currentRoute.value.path !== '/')
@@ -158,7 +170,6 @@ const mainButtonText = computed(() => {
     <!--    </div> -->
     <ExpandedViewport />
     <ClosingConfirmation />
-
     <div v-if="!loading" class="p-4 max-w-[1280px] mx-auto">
       <Button v-if="showBackButton && deviceType === 'Android'" class="mb-4" size="sm" @click="handleBackButton">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="m5.83 9l5.58-5.58L10 2l-8 8l8 8l1.41-1.41L5.83 11H18V9z" /></svg>

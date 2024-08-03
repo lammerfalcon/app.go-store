@@ -43,6 +43,7 @@ declare module 'vue' {
     ProductsDrawerInfoCard: typeof import('./src/components/products/ProductsDrawerInfoCard.vue')['default']
     ProductsInfoCard: typeof import('./src/components/products/ProductsInfoCard.vue')['default']
     ProductsMockList: typeof import('./src/components/products/ProductsMockList.vue')['default']
+    Progress: typeof import('./src/components/ui/progress/Progress.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Spinner: typeof import('./src/components/Loading/Spinner.vue')['default']

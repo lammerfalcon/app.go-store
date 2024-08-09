@@ -36,8 +36,9 @@ export const useProductsStore = defineStore('products', () => {
       product.basketCount += 1
       if (basket.value.find(item => item.product_id === product.id)) {
         basket.value.map((item) => {
-          item.count += 1
-
+          if (item.product_id === product.id) {
+            item.count += 1
+          }
           return item
         })
       }
@@ -52,16 +53,12 @@ export const useProductsStore = defineStore('products', () => {
     }
     else if (canDecrease) {
       product.basketCount -= 1
-      if (basket.value.find(item => item.product_id === product.id).count > 0) {
-        basket.value.map((item) => {
+      basket.value.map((item) => {
+        if (item.product_id === product.id) {
           item.count -= 1
-
-          return item
-        })
-      }
-      else {
-        basket.value = basket.value.filter(item => item.product_id !== product.id)
-      }
+        }
+        return item
+      })
     }
 
     product.animationTimeoutId = setTimeout(() => {

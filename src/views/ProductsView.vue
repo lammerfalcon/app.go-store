@@ -10,6 +10,7 @@ import ProductsInfoCard from '@/components/products/ProductsInfoCard.vue'
 import ProductsDrawerInfoCard from '@/components/products/ProductsDrawerInfoCard.vue'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { useProductsApi } from '@/services/products/useProductsApi'
+import type { Basket } from '@/types/Basket'
 
 const productsStore = useProductsStore()
 const { changeCount } = productsStore
@@ -25,11 +26,15 @@ function showExtendedInfo(product: ProductResponseEntities) {
 const selectedCategory = ref<number | null>(null)
 const loading = ref<boolean>(false)
 async function fetchAndSetProducts() {
-  console.log(basket.value, '>>>basket on fetch')
   try {
     loading.value = true
     const { entities } = await getProducts({ category_id: selectedCategory.value })
     products.value = entities
+    products.value.forEach((product) => {
+      const basketProduct = basket.value.find((basketProduct: Basket) => basketProduct.product_id === product.id)
+      if (basketProduct)
+        product.basketCount = basketProduct.count
+    })
   }
   catch (error) {
     console.error('Error fetching products:', error)
@@ -79,7 +84,8 @@ watchEffect((cleanupFn) => {
         <div class="p-0 relative ">
           <img loading="lazy" class="object-cover rounded-t-xl aspect-[3/4] w-full" :src="product.img_url" alt="" @click="showExtendedInfo(product)">
           <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
-            к заказу — {{ product.basketCount }}
+            <!-- todo: computed -->
+            к заказу — {{ basket.find((basketProduct: Basket) => basketProduct.product_id === product.id).count }}
           </Badge>
         </div>
         <div class="p-3 flex-1 flex  gap-5 flex-col">

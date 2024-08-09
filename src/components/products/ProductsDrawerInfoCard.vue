@@ -12,14 +12,14 @@ import {
   DrawerTitle,
 } from '@/components/ui/drawer'
 import type { ProductResponseEntities } from '@/types/Product'
-import { useChangeCount } from '@/composables/useChangeCount'
+import { useProductsStore } from '@/stores/products'
 
 defineProps<{
   selectedProduct: ProductResponseEntities | null
 }>()
 
 const isOpen = defineModel<boolean>()
-const { changeCount } = useChangeCount()
+const { changeCount } = useProductsStore()
 </script>
 
 <template>

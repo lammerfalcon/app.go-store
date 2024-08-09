@@ -8,13 +8,12 @@ import { useProductsStore } from '@/stores/products'
 
 import ProductsInfoCard from '@/components/products/ProductsInfoCard.vue'
 import ProductsDrawerInfoCard from '@/components/products/ProductsDrawerInfoCard.vue'
-import { useChangeCount } from '@/composables/useChangeCount'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { useProductsApi } from '@/services/products/useProductsApi'
 
 const productsStore = useProductsStore()
-const { changeCount } = useChangeCount()
-const { products, categories } = storeToRefs(productsStore)
+const { changeCount } = productsStore
+const { products, categories, basket } = storeToRefs(productsStore)
 const selectedProduct = ref<ProductResponseEntities | null>(null)
 const isOpen = ref(false)
 const { getProducts } = useProductsApi()
@@ -26,6 +25,7 @@ function showExtendedInfo(product: ProductResponseEntities) {
 const selectedCategory = ref<number | null>(null)
 const loading = ref<boolean>(false)
 async function fetchAndSetProducts() {
+  console.log(basket.value, '>>>basket on fetch')
   try {
     loading.value = true
     const { entities } = await getProducts({ category_id: selectedCategory.value })
@@ -106,7 +106,8 @@ watchEffect((cleanupFn) => {
                 –
               </Button>
               <Button
-                size="sm" @click.stop="changeCount(product, 'inc')"
+                size="sm"
+                @click.stop="changeCount(product, 'inc')"
               >
                 +
               </Button>

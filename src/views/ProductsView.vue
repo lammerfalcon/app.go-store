@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from 'vue'
+import {computed, ref, watch, watchEffect} from 'vue'
 import { storeToRefs } from 'pinia'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -44,6 +44,12 @@ async function fetchAndSetProducts() {
   }
 }
 
+function countInBasket(product: ProductResponseEntities) {
+  const item = basket.value.find((basketProduct: Basket) => basketProduct.product_id === product.id)
+
+  return item ? item.count : 0
+}
+
 watch(selectedCategory, fetchAndSetProducts)
 const progress = ref(13)
 
@@ -84,8 +90,7 @@ watchEffect((cleanupFn) => {
         <div class="p-0 relative ">
           <img loading="lazy" class="object-cover rounded-t-xl aspect-[3/4] w-full" :src="product.img_url" alt="" @click="showExtendedInfo(product)">
           <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
-            <!-- todo: computed -->
-            к заказу — {{ basket.find((basketProduct: Basket) => basketProduct.product_id === product.id).count }}
+            к заказу — {{ countInBasket(product) }}
           </Badge>
         </div>
         <div class="p-3 flex-1 flex  gap-5 flex-col">

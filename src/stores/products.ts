@@ -29,16 +29,16 @@ export const useProductsStore = defineStore('products', () => {
     product.basketCount = product.basketCount ?? 0
     // product.stock = product.stock ?? 0
 
-    const canIncrease = direction === 'inc'
-    const canDecrease = direction === 'dec' && product.basketCount > 0
+    const isIncreaseAction = direction === 'inc'
+    const isDecreaseAction = direction === 'dec' && product.basketCount > 0
 
-    if (canIncrease) {
+    if (isIncreaseAction) {
       product.basketCount += 1
       if (basket.value.find(item => item.product_id === product.id)) {
         basket.value.map((item) => {
-          if (item.product_id === product.id) {
+          if (item.product_id === product.id)
             item.count += 1
-          }
+
           return item
         })
       }
@@ -51,12 +51,13 @@ export const useProductsStore = defineStore('products', () => {
         })
       }
     }
-    else if (canDecrease) {
+    else if (isDecreaseAction) {
       product.basketCount -= 1
       basket.value.map((item) => {
-        if (item.product_id === product.id) {
+        if (item.product_id === product.id)
           item.count -= 1
-        }
+        if (item.count === 0)
+          basket.value.splice(basket.value.indexOf(item), 1)
         return item
       })
     }
@@ -67,5 +68,6 @@ export const useProductsStore = defineStore('products', () => {
       product.animationTimeoutId = null
     }, 150)
   }
+
   return { products, basket, totalPrice, comment, categories, changeCount }
 })

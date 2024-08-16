@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from 'vue'
+import {computed, ref, watch, watchEffect} from 'vue'
 import { storeToRefs } from 'pinia'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -8,13 +8,13 @@ import { useProductsStore } from '@/stores/products'
 
 import ProductsInfoCard from '@/components/products/ProductsInfoCard.vue'
 import ProductsDrawerInfoCard from '@/components/products/ProductsDrawerInfoCard.vue'
-import { useChangeCount } from '@/composables/useChangeCount'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel'
 import { useProductsApi } from '@/services/products/useProductsApi'
+import type { Basket } from '@/types/Basket'
 
 const productsStore = useProductsStore()
-const { changeCount } = useChangeCount()
-const { products, categories } = storeToRefs(productsStore)
+const { changeCount } = productsStore
+const { products, categories, basket } = storeToRefs(productsStore)
 const selectedProduct = ref<ProductResponseEntities | null>(null)
 const isOpen = ref(false)
 const { getProducts } = useProductsApi()
@@ -30,6 +30,11 @@ async function fetchAndSetProducts() {
     loading.value = true
     const { entities } = await getProducts({ category_id: selectedCategory.value })
     products.value = entities
+    products.value.forEach((product) => {
+      const basketProduct = basket.value.find((basketProduct: Basket) => basketProduct.product_id === product.id)
+      if (basketProduct)
+        product.basketCount = basketProduct.count
+    })
   }
   catch (error) {
     console.error('Error fetching products:', error)
@@ -37,6 +42,12 @@ async function fetchAndSetProducts() {
   finally {
     loading.value = false
   }
+}
+
+function countInBasket(product: ProductResponseEntities) {
+  const item = basket.value.find((basketProduct: Basket) => basketProduct.product_id === product.id)
+
+  return item ? item.count : 0
 }
 
 watch(selectedCategory, fetchAndSetProducts)
@@ -79,7 +90,7 @@ watchEffect((cleanupFn) => {
         <div class="p-0 relative ">
           <img loading="lazy" class="object-cover rounded-t-xl aspect-[3/4] w-full" :src="product.img_url" alt="" @click="showExtendedInfo(product)">
           <Badge v-if="product.basketCount" :class="{ 'animate-scaleUp': product.isAnimatingProcess }" class="absolute top-2 right-2">
-            к заказу — {{ product.basketCount }}
+            к заказу — {{ countInBasket(product) }}
           </Badge>
         </div>
         <div class="p-3 flex-1 flex  gap-5 flex-col">
@@ -106,7 +117,8 @@ watchEffect((cleanupFn) => {
                 –
               </Button>
               <Button
-                size="sm" @click.stop="changeCount(product, 'inc')"
+                size="sm"
+                @click.stop="changeCount(product, 'inc')"
               >
                 +
               </Button>
